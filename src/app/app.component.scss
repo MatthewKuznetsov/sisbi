@@ -1,4 +1,15 @@
-.container {
-    margin: 40px 24px;
-    max-width: 800px;
+:host {
+    min-height: 100%;
+    display: flex;
+}
+
+.wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    main {
+        flex-grow: 1;
+    }
+
 }
