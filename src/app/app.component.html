@@ -1,29 +1,9 @@
 <tui-root>
-  <router-outlet></router-outlet>
-  <tui-accordion class="container">
-    <tui-accordion-item [open]="true">
-      Taiga UI cdk
-      <ng-template tuiAccordionItemContent>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis velit consequuntur perspiciatis. Deleniti cumque sequi minus aliquam libero itaque aspernatur ducimus consectetur, debitis aperiam quaerat corporis officiis qui, iusto laudantium beatae, voluptatibus esse nemo? Commodi doloremque dolorum impedit, porro laborum explicabo amet animi nam temporibus dolore suscipit perferendis provident dolorem expedita voluptatem facere ipsa libero nostrum quidem! Eaque provident explicabo quis officia rerum est harum reiciendis! Magni reiciendis modi id iste delectus? Est sed nobis atque voluptatibus repellat dolores animi, debitis consequuntur fugiat perferendis harum deleniti blanditiis illo aliquid officiis architecto ipsam? Odio mollitia architecto velit consequatur. Est, et numquam.</p>
-        <button tuiButton>Button</button>
-      </ng-template>
-    </tui-accordion-item>
-    <tui-accordion-item>
-      Taiga UI core
-      <ng-template tuiAccordionItemContent>
-        <div #content>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, molestiae! Fuga veritatis amet saepe? Cupiditate fugiat eveniet ab, perferendis, sed, voluptatibus sit unde assumenda voluptatem aliquam laudantium! Officiis earum assumenda accusamus maiores molestiae accusantium laborum, dolor voluptas inventore dolorem facilis veniam velit debitis dignissimos quia veritatis, similique quisquam aliquam. Corporis tenetur nemo, autem non eligendi, esse, repellendus consectetur voluptas nisi ipsam quo sunt magni recusandae veniam vel odio necessitatibus sed rerum molestias nesciunt. Placeat facere eum assumenda magnam id accusamus recusandae autem! Quos ducimus consequuntur veritatis quidem placeat quam, sint distinctio, iure numquam perspiciatis ipsum repellat pariatur labore eum fugit magni laboriosam ut natus enim blanditiis deserunt nostrum. Eius, a veritatis. Reiciendis neque magni quod ut? Consequuntur voluptatibus ut voluptatem.</p>
-          <button tuiButton size="m" appearance="flat">Button 2</button>
-        </div>
-      </ng-template>
-    </tui-accordion-item>
-    <tui-accordion-item>
-      Taiga UI kit
-      <ng-template tuiAccordionItemContent>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas asperiores sint, quae nam, tenetur nulla voluptate voluptas suscipit quibusdam minima delectus eum blanditiis reiciendis culpa ratione praesentium dolor adipisci dolorum.</p>
-        <button tuiButton size="xs" appearance="secondary">Button 3</button>
-      </ng-template>
-    </tui-accordion-item>
-  </tui-accordion>
-  <tui-calendar></tui-calendar>
+  <div class="wrapper">
+    <sis-header></sis-header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+    <sis-footer></sis-footer>
+  </div>
 </tui-root>
