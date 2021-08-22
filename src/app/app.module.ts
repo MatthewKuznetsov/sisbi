@@ -16,7 +16,7 @@ import { HomeComponent } from './pages/home/home.component';
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,7 +27,12 @@ import { HomeComponent } from './pages/home/home.component';
     TuiNotificationsModule,
     UIModule,
 ],
-  providers: [{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: TUI_SANITIZER,
+      useClass: NgDompurifySanitizer
+    },
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
