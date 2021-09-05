@@ -6,10 +6,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UIModule } from "./ui.module";
+import { UIModule } from "./ui/ui.module";
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './pages/home/home.component';
+import { CoreModule } from "./core/core.module";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -21,11 +23,16 @@ import { HomeComponent } from './pages/home/home.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    
+    HttpClientModule,
+
     TuiRootModule,
     BrowserAnimationsModule,
     TuiDialogModule,
     TuiNotificationsModule,
+
     UIModule,
+    CoreModule,
 ],
   providers: [
     {
