@@ -10,14 +10,14 @@
           <span class="sign">Введите номер телефона</span>
           <tui-input-phone [formControl]="state.form">Номер телефона</tui-input-phone>
           <tui-field-error [formControl]="state.form"></tui-field-error>
-          <button tuiButton class="toggle-reg-variant" shape="rounded" size="s" appearance="flat" (click)="useEmail()">Использовать E-mail</button>
+          <button tuiButton class="toggle-reg-variant" shape="rounded" size="xs" appearance="flat" (click)="useEmail()">Использовать E-mail</button>
         </div>
         
         <div *ngIf="state.type === 'email'">
           <span class="sign">Введите E-mail</span>
           <tui-input [formControl]="state.form">E-mail</tui-input>
           <tui-field-error [formControl]="state.form"></tui-field-error>
-          <button tuiButton class="toggle-reg-variant" shape="rounded" size="s" appearance="flat" (click)="usePhone()">Использовать номер телефона</button>
+          <button tuiButton class="toggle-reg-variant" shape="rounded" size="xs" appearance="flat" (click)="usePhone()">Использовать номер телефона</button>
         </div>
         
         <div *ngIf="state.type === 'sms-verification'">
