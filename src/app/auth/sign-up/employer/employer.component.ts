@@ -5,8 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../../auth.service';
 import { FormState, StateTypes } from '../statefull-form/form-state';
 import { IStatefullForm } from '../statefull-form/statefull';
-import { EmailForm } from './states/email-form';
-import { PhoneForm } from './states/phone-form';
+import { EmployerStatesFactory } from './employer-sates-factory';
 
 export interface IEmployerData {
   phone?: string;
@@ -31,8 +30,7 @@ export interface IEmployerData {
 export class EmployerComponent implements IStatefullForm<IEmployerData> {
 
   private _loading$$ = new BehaviorSubject<boolean>(false);
-  private _emailForm: EmailForm;
-  private _phoneForm: PhoneForm;
+  private _statesFactory: EmployerStatesFactory;
 
   loading$ = this._loading$$.asObservable();
   state!: FormState<IEmployerData>;
@@ -42,16 +40,7 @@ export class EmployerComponent implements IStatefullForm<IEmployerData> {
     authService: AuthService,
     router: Router,
   ) {
-    this._emailForm = new EmailForm(
-      this,
-      authService,
-      router,
-    );
-    this._phoneForm = new PhoneForm(
-      this,
-      authService,
-      router,
-    );
+    this._statesFactory = new EmployerStatesFactory(this, authService, router);
     this.useEmail();
   }
 
@@ -64,11 +53,11 @@ export class EmployerComponent implements IStatefullForm<IEmployerData> {
   }
 
   useEmail(): void {
-    this.setState(this._emailForm);
+    this.setState(this._statesFactory.emailForm);
   }
 
   usePhone(): void {
-    this.setState(this._phoneForm);
+    this.setState(this._statesFactory.phoneForm);
   }
 
   next() {

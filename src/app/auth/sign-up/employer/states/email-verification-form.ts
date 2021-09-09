@@ -1,15 +1,13 @@
 import { AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
 import { TextMaskConfig } from "angular2-text-mask";
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
-import { EmailForm } from "./email-form";
 import { FormState, StateTypes } from "../../statefull-form/form-state";
 import { IStatefullForm } from "../../statefull-form/statefull";
 import { IEmployerData } from "../employer.component";
 import { forDigitsValidator } from "src/app/core/helpers";
-import { PersonalForm } from "./personal-form";
+import { EmployerStatesFactory } from "../employer-sates-factory";
 
 export class EmailVerificationForm extends FormState<IEmployerData> {
 
@@ -22,7 +20,7 @@ export class EmailVerificationForm extends FormState<IEmployerData> {
       forDigitsValidator(),
     ],
     [
-      this.codeValidator(this._authService, this.target).bind(this)
+      this.codeValidator(this.factory.authService, this.target).bind(this)
     ]
   );
   mask: TextMaskConfig = {
@@ -32,31 +30,18 @@ export class EmailVerificationForm extends FormState<IEmployerData> {
 
   constructor(
     public target: IStatefullForm<IEmployerData>,
-    private _authService: AuthService,
-    private _router: Router,
+    private factory: EmployerStatesFactory,
   ) { super(); }
 
   next(): void {
     if (!this.form.valid) { return; }
     this.target.data.code = this.form.value;
-    this.target.setState(
-      new PersonalForm(
-        this.target,
-        this._authService,
-        this._router,
-      )
-    );
+    this.target.setState(this.factory.personalForm);
   }
 
   prev(): void {
     this.target.data.email = undefined;
-    this.target.setState(
-      new EmailForm(
-        this.target,
-        this._authService,
-        this._router,
-      )
-    );
+    this.target.setState(this.factory.emailForm);
   }
 
   codeValidator(

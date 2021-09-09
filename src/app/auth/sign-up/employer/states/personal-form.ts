@@ -1,11 +1,8 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { AuthService } from "src/app/auth/auth.service";
 import { FormState, StateTypes } from "../../statefull-form/form-state";
 import { IStatefullForm } from "../../statefull-form/statefull";
+import { EmployerStatesFactory } from "../employer-sates-factory";
 import { IEmployerData } from "../employer.component";
-import { EmailForm } from "./email-form";
-import { PasswordForm } from "./password-form";
 
 export class PersonalForm extends FormState<IEmployerData> {
 
@@ -17,8 +14,7 @@ export class PersonalForm extends FormState<IEmployerData> {
 
   constructor(
     public target: IStatefullForm<IEmployerData>,
-    private _authService: AuthService,
-    private _router: Router,
+    private factory: EmployerStatesFactory,
   ) {
     super();
     this.target.data.name = undefined;
@@ -29,24 +25,12 @@ export class PersonalForm extends FormState<IEmployerData> {
     if (!this.form.valid) { return; }
     this.target.data.name = this.form.get('name')?.value;
     this.target.data.organization = this.form.get('organization')?.value;
-    this.target.setState(
-      new PasswordForm(
-        this.target,
-        this._authService,
-        this._router,
-      )
-    );
+    this.target.setState(this.factory.passwordForm);
   }
 
   prev(): void {
     this.target.data = {};
-    this.target.setState(
-      new EmailForm(
-        this.target,
-        this._authService,
-        this._router,
-      )
-    );
+    this.target.setState(this.factory.emailForm);
   }
 
 }

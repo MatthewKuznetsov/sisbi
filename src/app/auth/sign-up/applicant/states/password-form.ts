@@ -1,11 +1,9 @@
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { AuthService } from "src/app/auth/auth.service";
 import { IApplicantData } from "../applicant.component";
-import { EmailForm } from "./email-form";
 import { FormState, StateTypes } from "../../statefull-form/form-state";
 import { IStatefullForm } from "../../statefull-form/statefull";
 import { passwordValidator } from "src/app/core/helpers";
+import { ApplicantStatesFactory } from "../applicant-states-factory";
 
 export class PasswordForm extends FormState<IApplicantData> {
 
@@ -30,8 +28,7 @@ export class PasswordForm extends FormState<IApplicantData> {
 
   constructor(
     public target: IStatefullForm<IApplicantData>,
-    private _authService: AuthService,
-    private _router: Router,
+    private factory: ApplicantStatesFactory,
   ) { super(); }
 
   next(): void {
@@ -40,26 +37,20 @@ export class PasswordForm extends FormState<IApplicantData> {
     if (!this.target.data.phone && !this.target.data.email) {
       throw new Error('No phone number or email were received from previous steps');
     }
-    this._authService
+    this.factory.authService
       .signUpAsApplicant$(
         (this.target.data.phone || this.target.data.email)!,
         this.form?.get('password')?.value
       )
       .subscribe({
-        next: () => this._router.navigate(['/']),
+        next: () => this.factory.router.navigate(['/']),
         error: () => this.form.reset()
       });
   }
 
   prev(): void {
     this.target.data = {};
-    this.target.setState(
-      new EmailForm(
-        this.target,
-        this._authService,
-        this._router,
-      )
-    );
+    this.target.setState(this.factory.emailForm);
   }
 
   confirmPasswordValidator(): ValidatorFn {

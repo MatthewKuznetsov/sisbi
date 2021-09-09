@@ -8,27 +8,27 @@
 
         <div *ngIf="state.type === 'phone'">
           <span class="sign">Введите номер телефона</span>
-          <tui-input-phone [formControl]="state.form">Номер телефона</tui-input-phone>
+          <tui-input-phone tuiAutoFocus [formControl]="state.form">Номер телефона</tui-input-phone>
           <tui-field-error [formControl]="state.form"></tui-field-error>
           <button tuiButton class="toggle-reg-variant" shape="rounded" size="xs" appearance="flat" (click)="useEmail()">Использовать E-mail</button>
         </div>
         
         <div *ngIf="state.type === 'email'">
           <span class="sign">Введите E-mail</span>
-          <tui-input [formControl]="state.form">E-mail</tui-input>
+          <tui-input tuiAutoFocus [formControl]="state.form">E-mail</tui-input>
           <tui-field-error [formControl]="state.form"></tui-field-error>
           <button tuiButton class="toggle-reg-variant" shape="rounded" size="xs" appearance="flat" (click)="usePhone()">Использовать номер телефона</button>
         </div>
         
         <div *ngIf="state.type === 'sms-verification'">
           <span class="sign">Введите код из СМС</span>
-          <tui-input [textMask]="state.mask!" [formControl]="state.form">Код из СМС</tui-input>
+          <tui-input tuiAutoFocus [textMask]="state.mask!" [formControl]="state.form">Код из СМС</tui-input>
           <tui-field-error [formControl]="state.form"></tui-field-error>
         </div>
         
         <div *ngIf="state.type === 'email-verification'">
           <span class="sign">Введите код из электронного писма</span>
-          <tui-input [textMask]="state.mask!" [formControl]="state.form">Код из письма</tui-input>
+          <tui-input tuiAutoFocus [textMask]="state.mask!" [formControl]="state.form">Код из письма</tui-input>
           <tui-field-error [formControl]="state.form"></tui-field-error>
         </div>
         
@@ -36,7 +36,7 @@
           <span class="sign">Введите номер телефона</span>
           <input class="hidden" name="username" [value]="getUsername()">
           <ng-container [formGroup]="state.form">
-            <tui-input-password formControlName="password">Введите пароль</tui-input-password>
+            <tui-input-password tuiAutoFocus formControlName="password">Введите пароль</tui-input-password>
             <tui-field-error formControlName="password"></tui-field-error>
             <tui-input-password formControlName="confirmPassword">Подтвердите пароль</tui-input-password>
             <tui-field-error formControlName="confirmPassword"></tui-field-error>

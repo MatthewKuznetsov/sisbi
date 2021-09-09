@@ -1,15 +1,13 @@
 import { AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
 import { TextMaskConfig } from "angular2-text-mask";
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
 import { forDigitsValidator } from "src/app/core/helpers";
 import { IApplicantData } from "../../applicant/applicant.component";
-import { PasswordForm } from "../../applicant/states/password-form";
-import { PhoneForm } from "../../applicant/states/phone-form";
 import { FormState, StateTypes } from "../../statefull-form/form-state";
 import { IStatefullForm } from "../../statefull-form/statefull";
+import { ApplicantStatesFactory } from "../applicant-states-factory";
 
 export class SmsVerificationForm extends FormState<IApplicantData> {
 
@@ -21,7 +19,7 @@ export class SmsVerificationForm extends FormState<IApplicantData> {
       forDigitsValidator(),
     ],
     [
-      this.codeValidator(this._authService, this.target)
+      this.codeValidator(this.factory.authService, this.target)
     ]
   );
 
@@ -32,31 +30,18 @@ export class SmsVerificationForm extends FormState<IApplicantData> {
 
   constructor(
     public target: IStatefullForm<IApplicantData>,
-    private _authService: AuthService,
-    private _router: Router,
+    private factory: ApplicantStatesFactory,
   ) { super(); }
 
   next(): void {
     if (!this.form.valid) { return; }
     this.target.data.code = this.form.value;
-    this.target.setState(
-      new PasswordForm(
-        this.target,
-        this._authService,
-        this._router,
-      )
-    );
+    this.target.setState(this.factory.passwordForm);
   }
 
   prev(): void {
     this.target.data.phone = undefined;
-    this.target.setState(
-      new PhoneForm(
-        this.target,
-        this._authService,
-        this._router,
-      )
-    );
+    this.target.setState(this.factory.phoneForm);
   }
 
   codeValidator(

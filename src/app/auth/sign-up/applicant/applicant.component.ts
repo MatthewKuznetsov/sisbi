@@ -7,6 +7,7 @@ import { EmailForm } from './states/email-form';
 import { FormState, StateTypes } from '../statefull-form/form-state';
 import { PhoneForm } from './states/phone-form';
 import { IStatefullForm } from '../statefull-form/statefull';
+import { ApplicantStatesFactory } from './applicant-states-factory';
 
 export interface IApplicantData {
   phone?: string;
@@ -29,8 +30,7 @@ export interface IApplicantData {
 export class ApplicantComponent implements IStatefullForm<IApplicantData> {
 
   private _loading$$ = new BehaviorSubject<boolean>(false);
-  private _emailForm: EmailForm;
-  private _phoneForm: PhoneForm;
+  private _statesFactory: ApplicantStatesFactory;
 
   loading$ = this._loading$$.asObservable();
   state!: FormState<IApplicantData>;
@@ -40,16 +40,7 @@ export class ApplicantComponent implements IStatefullForm<IApplicantData> {
     authService: AuthService,
     router: Router,
   ) {
-    this._emailForm = new EmailForm(
-      this,
-      authService,
-      router,
-    );
-    this._phoneForm = new PhoneForm(
-      this,
-      authService,
-      router,
-    );
+    this._statesFactory = new ApplicantStatesFactory(this, authService, router);
     this.useEmail();
   }
 
@@ -58,11 +49,11 @@ export class ApplicantComponent implements IStatefullForm<IApplicantData> {
   }
 
   useEmail(): void {
-    this.setState(this._emailForm);
+    this.setState(this._statesFactory.emailForm);
   }
 
   usePhone(): void {
-    this.setState(this._phoneForm);
+    this.setState(this._statesFactory.phoneForm);
   }
 
   loading(status: boolean): void {
