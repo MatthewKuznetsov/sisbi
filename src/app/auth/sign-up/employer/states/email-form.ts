@@ -1,19 +1,19 @@
 import { FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
-import { IApplicantData } from "../applicant.component";
-import { EmailVerificationForm } from "./email-verification-form";
+import { emailValidator } from "src/app/core/helpers";
 import { FormState, StateTypes } from "../../statefull-form/form-state";
 import { IStatefullForm } from "../../statefull-form/statefull";
-import { emailValidator } from "src/app/core/helpers";
+import { IEmployerData } from "../employer.component";
+import { EmailVerificationForm } from "./email-verification-form";
 
-export class EmailForm extends FormState<IApplicantData> {
+export class EmailForm extends FormState<IEmployerData> {
 
   type = StateTypes.EMAIL;
   form = new FormControl('', [Validators.required, emailValidator()])
 
   constructor(
-    public target: IStatefullForm<IApplicantData>,
+    public target: IStatefullForm<IEmployerData>,
     private _authService: AuthService,
     private _router: Router,
   ) { super(); }

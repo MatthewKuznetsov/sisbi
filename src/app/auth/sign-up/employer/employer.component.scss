@@ -12,3 +12,48 @@
     padding: 0 24px;
     box-sizing: border-box;
 }
+
+.row {
+    display: flex;
+
+    .column {
+        width: 50%;
+    }
+}
+
+img.illustration {
+    margin-left: -100px;
+}
+
+form {
+    max-width: 370px;
+    margin-bottom: 60px;
+}
+
+tui-input,
+tui-input-phone,
+tui-input-password {
+    margin-top: 45px;
+}
+
+.toggle-reg-variant {
+    margin-top: 10px;
+}
+
+.social-sign-up {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+
+    .or-statement {
+        color: var(--tui-primary);
+    }
+
+    button {
+        margin-left: 25px;
+    }
+}
+
+.back-btn {
+    margin-right: 10px;
+}

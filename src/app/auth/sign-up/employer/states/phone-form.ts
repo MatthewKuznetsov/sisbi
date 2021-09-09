@@ -1,19 +1,19 @@
 import { FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
-import { IApplicantData } from "../applicant.component";
-import { EmailVerificationForm } from "./email-verification-form";
+import { phoneValidator } from "src/app/core/helpers";
 import { FormState, StateTypes } from "../../statefull-form/form-state";
 import { IStatefullForm } from "../../statefull-form/statefull";
-import { emailValidator } from "src/app/core/helpers";
+import { IEmployerData } from "../employer.component";
+import { SmsVerificationForm } from "./sms-verification-form";
 
-export class EmailForm extends FormState<IApplicantData> {
+export class PhoneForm extends FormState<IEmployerData> {
 
-  type = StateTypes.EMAIL;
-  form = new FormControl('', [Validators.required, emailValidator()])
+  type = StateTypes.PHONE;
+  form = new FormControl('', [Validators.required, phoneValidator()])
 
   constructor(
-    public target: IStatefullForm<IApplicantData>,
+    public target: IStatefullForm<IEmployerData>,
     private _authService: AuthService,
     private _router: Router,
   ) { super(); }
@@ -22,13 +22,13 @@ export class EmailForm extends FormState<IApplicantData> {
     if (!this.form.valid) { return; }
     this.target.loading(true);
     this._authService
-      .verifyEmail$(this.form.value)
+      .verifyPhone$(this.form.value)
       .subscribe({
         next: () => {
           this.target.loading(false);
-          this.target.data.email = this.form.value;
+          this.target.data.phone = this.form.value;
           this.target.setState(
-            new EmailVerificationForm(
+            new SmsVerificationForm(
               this.target,
               this._authService,
               this._router,

@@ -4,9 +4,9 @@ import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../../auth.service';
 import { EmailForm } from './states/email-form';
-import { FormState, StateTypes } from './states/form-state';
+import { FormState, StateTypes } from '../statefull-form/form-state';
 import { PhoneForm } from './states/phone-form';
-import { IStatefullForm } from './states/statefull';
+import { IStatefullForm } from '../statefull-form/statefull';
 
 export interface IApplicantData {
   phone?: string;

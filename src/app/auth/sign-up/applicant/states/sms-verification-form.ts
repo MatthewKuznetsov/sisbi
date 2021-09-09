@@ -1,14 +1,15 @@
-import { AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import { AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { TextMaskConfig } from "angular2-text-mask";
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
-import { IApplicantData } from "../applicant.component";
-import { FormState, StateTypes } from "./form-state";
-import { PasswordForm } from "./password-form";
-import { PhoneForm } from "./phone-form";
-import { IStatefullForm } from "./statefull";
+import { forDigitsValidator } from "src/app/core/helpers";
+import { IApplicantData } from "../../applicant/applicant.component";
+import { PasswordForm } from "../../applicant/states/password-form";
+import { PhoneForm } from "../../applicant/states/phone-form";
+import { FormState, StateTypes } from "../../statefull-form/form-state";
+import { IStatefullForm } from "../../statefull-form/statefull";
 
 export class SmsVerificationForm extends FormState<IApplicantData> {
 
@@ -17,10 +18,10 @@ export class SmsVerificationForm extends FormState<IApplicantData> {
     '',
     [
       Validators.required,
-      this.forDigitsValidator(),
+      forDigitsValidator(),
     ],
     [
-      this.codeValidator(this._authService, this.target).bind(this)
+      this.codeValidator(this._authService, this.target)
     ]
   );
 
@@ -75,12 +76,6 @@ export class SmsVerificationForm extends FormState<IApplicantData> {
         catchError(() => of({ invalidCode: "Неверный код" })),
         tap(() => target.loading(false)),
       );
-    };
-  };
-
-  forDigitsValidator(): ValidatorFn {
-    return (input: AbstractControl): ValidationErrors | null => {
-      return /^\d{4}$/.test(input.value) ? null : { invalidCode: "Код должен содержать 4 цифры" };
     };
   };
 

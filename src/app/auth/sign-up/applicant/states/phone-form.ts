@@ -1,15 +1,16 @@
-import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import { FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
 import { IApplicantData } from "../applicant.component";
-import { FormState, StateTypes } from "./form-state";
+import { FormState, StateTypes } from "../../statefull-form/form-state";
+import { IStatefullForm } from "../../statefull-form/statefull";
 import { SmsVerificationForm } from "./sms-verification-form";
-import { IStatefullForm } from "./statefull";
+import { phoneValidator } from "src/app/core/helpers";
 
 export class PhoneForm extends FormState<IApplicantData> {
 
   type = StateTypes.PHONE;
-  form = new FormControl('', [Validators.required, this.phoneValidator()])
+  form = new FormControl('', [Validators.required, phoneValidator()])
 
   constructor(
     public target: IStatefullForm<IApplicantData>,
@@ -42,11 +43,5 @@ export class PhoneForm extends FormState<IApplicantData> {
   }
 
   prev(): void { }
-
-  phoneValidator(): ValidatorFn {
-    return (input: AbstractControl): ValidationErrors | null => {
-      return /^\+7\d{10}$/.test(input.value) ? null : { invalidEmail: "Не соответстовует шаблону +7 (xxx) xxx-xx-xx" };
-    };
-  };
 
 }

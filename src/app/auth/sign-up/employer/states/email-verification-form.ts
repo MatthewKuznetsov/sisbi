@@ -4,14 +4,14 @@ import { TextMaskConfig } from "angular2-text-mask";
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
-import { IApplicantData } from "../applicant.component";
 import { EmailForm } from "./email-form";
-import { PasswordForm } from "./password-form";
 import { FormState, StateTypes } from "../../statefull-form/form-state";
 import { IStatefullForm } from "../../statefull-form/statefull";
+import { IEmployerData } from "../employer.component";
 import { forDigitsValidator } from "src/app/core/helpers";
+import { PersonalForm } from "./personal-form";
 
-export class EmailVerificationForm extends FormState<IApplicantData> {
+export class EmailVerificationForm extends FormState<IEmployerData> {
 
 
   type = StateTypes.EMAIL_VERIFICATION;
@@ -31,7 +31,7 @@ export class EmailVerificationForm extends FormState<IApplicantData> {
   };
 
   constructor(
-    public target: IStatefullForm<IApplicantData>,
+    public target: IStatefullForm<IEmployerData>,
     private _authService: AuthService,
     private _router: Router,
   ) { super(); }
@@ -40,7 +40,7 @@ export class EmailVerificationForm extends FormState<IApplicantData> {
     if (!this.form.valid) { return; }
     this.target.data.code = this.form.value;
     this.target.setState(
-      new PasswordForm(
+      new PersonalForm(
         this.target,
         this._authService,
         this._router,
@@ -61,7 +61,7 @@ export class EmailVerificationForm extends FormState<IApplicantData> {
 
   codeValidator(
     authService: AuthService,
-    target: IStatefullForm<IApplicantData>,
+    target: IStatefullForm<IEmployerData>,
   ): AsyncValidatorFn {
     return (input: AbstractControl): Observable<ValidationErrors | null> => {
       target.loading(true);

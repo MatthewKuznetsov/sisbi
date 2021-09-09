@@ -4,17 +4,16 @@ import { TextMaskConfig } from "angular2-text-mask";
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
-import { IApplicantData } from "../applicant.component";
-import { EmailForm } from "./email-form";
-import { PasswordForm } from "./password-form";
+import { forDigitsValidator } from "src/app/core/helpers";
+import { PhoneForm } from "../../applicant/states/phone-form";
 import { FormState, StateTypes } from "../../statefull-form/form-state";
 import { IStatefullForm } from "../../statefull-form/statefull";
-import { forDigitsValidator } from "src/app/core/helpers";
+import { IEmployerData } from "../employer.component";
+import { PersonalForm } from "./personal-form";
 
-export class EmailVerificationForm extends FormState<IApplicantData> {
+export class SmsVerificationForm extends FormState<IEmployerData> {
 
-
-  type = StateTypes.EMAIL_VERIFICATION;
+  type = StateTypes.SMS_VERIFICATION;
   form = new FormControl(
     '',
     [
@@ -22,16 +21,17 @@ export class EmailVerificationForm extends FormState<IApplicantData> {
       forDigitsValidator(),
     ],
     [
-      this.codeValidator(this._authService, this.target).bind(this)
+      this.codeValidator(this._authService, this.target)
     ]
   );
+
   mask: TextMaskConfig = {
     guide: false,
     mask: [ /\d/, /\d/, /\d/, /\d/ ]
   };
 
   constructor(
-    public target: IStatefullForm<IApplicantData>,
+    public target: IStatefullForm<IEmployerData>,
     private _authService: AuthService,
     private _router: Router,
   ) { super(); }
@@ -40,7 +40,7 @@ export class EmailVerificationForm extends FormState<IApplicantData> {
     if (!this.form.valid) { return; }
     this.target.data.code = this.form.value;
     this.target.setState(
-      new PasswordForm(
+      new PersonalForm(
         this.target,
         this._authService,
         this._router,
@@ -49,9 +49,9 @@ export class EmailVerificationForm extends FormState<IApplicantData> {
   }
 
   prev(): void {
-    this.target.data.email = undefined;
+    this.target.data.phone = undefined;
     this.target.setState(
-      new EmailForm(
+      new PhoneForm(
         this.target,
         this._authService,
         this._router,
@@ -61,16 +61,16 @@ export class EmailVerificationForm extends FormState<IApplicantData> {
 
   codeValidator(
     authService: AuthService,
-    target: IStatefullForm<IApplicantData>,
+    target: IStatefullForm<IEmployerData>,
   ): AsyncValidatorFn {
     return (input: AbstractControl): Observable<ValidationErrors | null> => {
       target.loading(true);
-      if (!target.data.email) {
-        throw new Error('No email were received from previous step');
+      if (!target.data.phone) {
+        throw new Error('No phone number were received from previous step');
       }
-      return authService.verifyEmailCode$(
+      return authService.verifySmsCode$(
         input.value,
-        target.data.email
+        target.data.phone
       ).pipe(
         map(res => res ? null : { invalidCode: "Неверный код" }),
         catchError(() => of({ invalidCode: "Неверный код" })),

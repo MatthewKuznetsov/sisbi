@@ -6,6 +6,7 @@ export enum StateTypes {
     EMAIL = 'email',
     SMS_VERIFICATION = 'sms-verification',
     EMAIL_VERIFICATION = 'email-verification',
+    PERSONAL = 'personal',
     PASSWORD = 'password'
 }
 
