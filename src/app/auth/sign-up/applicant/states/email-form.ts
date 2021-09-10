@@ -1,6 +1,5 @@
 import { FormControl, Validators } from "@angular/forms";
 import { IApplicantData } from "../applicant.component";
-import { EmailVerificationForm } from "./email-verification-form";
 import { FormState, StateTypes } from "../../statefull-form/form-state";
 import { IStatefullForm } from "../../statefull-form/statefull";
 import { emailValidator } from "src/app/core/helpers";
