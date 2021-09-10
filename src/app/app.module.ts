@@ -11,7 +11,6 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CoreModule } from "./core/core.module";
-import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -23,8 +22,6 @@ import { HttpClientModule } from "@angular/common/http";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    
-    HttpClientModule,
 
     TuiRootModule,
     BrowserAnimationsModule,
