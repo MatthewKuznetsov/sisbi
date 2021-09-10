@@ -1,12 +1,12 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { FormState, StateTypes } from "../../../statefull-form/form-state";
+import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { EmployerStatesFactory } from "../employer-sates-factory";
 import { IEmployerData } from "../employer.component";
 
 export class PersonalForm extends FormState<IEmployerData> {
 
-  type = StateTypes.PERSONAL;
+  type = 'personal';
   form = new FormGroup({
     name: new FormControl('', [Validators.required]),
     organization: new FormControl('', [Validators.required])

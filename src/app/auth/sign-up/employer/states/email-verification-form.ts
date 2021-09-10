@@ -3,7 +3,7 @@ import { TextMaskConfig } from "angular2-text-mask";
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
-import { FormState, StateTypes } from "../../../statefull-form/form-state";
+import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { IEmployerData } from "../employer.component";
 import { forDigitsValidator } from "src/app/core/helpers";
@@ -12,7 +12,7 @@ import { EmployerStatesFactory } from "../employer-sates-factory";
 export class EmailVerificationForm extends FormState<IEmployerData> {
 
 
-  type = StateTypes.EMAIL_VERIFICATION;
+  type = 'email-verification';
   form = new FormControl(
     '',
     [

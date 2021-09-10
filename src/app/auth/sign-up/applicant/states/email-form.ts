@@ -1,13 +1,13 @@
 import { FormControl, Validators } from "@angular/forms";
 import { IApplicantData } from "../applicant.component";
-import { FormState, StateTypes } from "../../../statefull-form/form-state";
+import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { emailValidator } from "src/app/core/helpers";
 import { ApplicantStatesFactory } from "../applicant-states-factory";
 
 export class EmailForm extends FormState<IApplicantData> {
 
-  type = StateTypes.EMAIL;
+  type = 'email';
   form = new FormControl('', [Validators.required, emailValidator()])
 
   constructor(

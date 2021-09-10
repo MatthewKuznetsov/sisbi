@@ -4,14 +4,14 @@ import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
 import { forDigitsValidator } from "src/app/core/helpers";
-import { FormState, StateTypes } from "../../../statefull-form/form-state";
+import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { EmployerStatesFactory } from "../employer-sates-factory";
 import { IEmployerData } from "../employer.component";
 
 export class SmsVerificationForm extends FormState<IEmployerData> {
 
-  type = StateTypes.SMS_VERIFICATION;
+  type = 'sms-verification';
   form = new FormControl(
     '',
     [

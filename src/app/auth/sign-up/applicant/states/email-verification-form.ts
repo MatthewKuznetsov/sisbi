@@ -4,7 +4,7 @@ import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
 import { IApplicantData } from "../applicant.component";
-import { FormState, StateTypes } from "../../../statefull-form/form-state";
+import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { forDigitsValidator } from "src/app/core/helpers";
 import { ApplicantStatesFactory } from "../applicant-states-factory";
@@ -12,7 +12,7 @@ import { ApplicantStatesFactory } from "../applicant-states-factory";
 export class EmailVerificationForm extends FormState<IApplicantData> {
 
 
-  type = StateTypes.EMAIL_VERIFICATION;
+  type = 'email-verification';
   form = new FormControl(
     '',
     [
