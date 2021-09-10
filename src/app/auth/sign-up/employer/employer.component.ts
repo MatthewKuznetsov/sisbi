@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../../auth.service';
-import { FormState, StateTypes } from '../statefull-form/form-state';
-import { IStatefullForm } from '../statefull-form/statefull';
+import { FormState, StateTypes } from '../../statefull-form/form-state';
+import { IStatefullForm } from '../../statefull-form/statefull';
 import { EmployerStatesFactory } from './employer-sates-factory';
 
 export interface IEmployerData {

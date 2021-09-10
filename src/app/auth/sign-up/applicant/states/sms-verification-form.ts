@@ -5,8 +5,8 @@ import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
 import { forDigitsValidator } from "src/app/core/helpers";
 import { IApplicantData } from "../../applicant/applicant.component";
-import { FormState, StateTypes } from "../../statefull-form/form-state";
-import { IStatefullForm } from "../../statefull-form/statefull";
+import { FormState, StateTypes } from "../../../statefull-form/form-state";
+import { IStatefullForm } from "../../../statefull-form/statefull";
 import { ApplicantStatesFactory } from "../applicant-states-factory";
 
 export class SmsVerificationForm extends FormState<IApplicantData> {

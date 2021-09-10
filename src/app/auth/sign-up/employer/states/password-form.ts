@@ -1,6 +1,6 @@
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
-import { FormState, StateTypes } from "../../statefull-form/form-state";
-import { IStatefullForm } from "../../statefull-form/statefull";
+import { FormState, StateTypes } from "../../../statefull-form/form-state";
+import { IStatefullForm } from "../../../statefull-form/statefull";
 import { IEmployerData } from "../employer.component";
 import { passwordValidator } from "src/app/core/helpers";
 import { EmployerStatesFactory } from "../employer-sates-factory";

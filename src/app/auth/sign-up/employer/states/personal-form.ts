@@ -1,6 +1,6 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { FormState, StateTypes } from "../../statefull-form/form-state";
-import { IStatefullForm } from "../../statefull-form/statefull";
+import { FormState, StateTypes } from "../../../statefull-form/form-state";
+import { IStatefullForm } from "../../../statefull-form/statefull";
 import { EmployerStatesFactory } from "../employer-sates-factory";
 import { IEmployerData } from "../employer.component";
 
