@@ -1,13 +1,13 @@
 import { FormControl, Validators } from "@angular/forms";
 import { phoneValidator } from "src/app/core/helpers";
-import { FormState, StateTypes } from "../../statefull-form/form-state";
-import { IStatefullForm } from "../../statefull-form/statefull";
+import { FormState } from "../../../statefull-form/form-state";
+import { IStatefullForm } from "../../../statefull-form/statefull";
 import { EmployerStatesFactory } from "../employer-sates-factory";
 import { IEmployerData } from "../employer.component";
 
 export class PhoneForm extends FormState<IEmployerData> {
 
-  type = StateTypes.PHONE;
+  type = 'phone';
   form = new FormControl('', [Validators.required, phoneValidator()])
 
   constructor(

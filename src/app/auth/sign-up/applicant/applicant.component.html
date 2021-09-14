@@ -51,18 +51,10 @@
       <a tuiButton class="cta-button" shape="rounded" [showLoader]="(loading$ | async)!" [disabled]="!state.form.valid" (click)="next()">
         Далее <tui-svg src="tuiIconArrowRight"></tui-svg>
       </a>
-      <div class="social-sign-up">
-        <span class="or-statement">или</span>
-        <button class="social-sign-button">
-          <img src="assets/icons/google-icon.png">
-        </button>
-        <button class="social-sign-button">
-          <img src="assets/icons/facebook-icon.svg">
-        </button>
-        <button class="social-sign-button">
-          <img src="assets/icons/vk-icon.svg">
-        </button>
-      </div>
+
+      <sis-social-sign-up-buttons></sis-social-sign-up-buttons>
+
+      <p class="sign-in-link">Уже регистрировались? <a [routerLink]="['/sign-in']" tuiLink>Войти</a></p>
 
     </div>
     <div class="column">

@@ -1,13 +1,13 @@
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { IApplicantData } from "../applicant.component";
-import { FormState, StateTypes } from "../../statefull-form/form-state";
-import { IStatefullForm } from "../../statefull-form/statefull";
+import { FormState } from "../../../statefull-form/form-state";
+import { IStatefullForm } from "../../../statefull-form/statefull";
 import { passwordValidator } from "src/app/core/helpers";
 import { ApplicantStatesFactory } from "../applicant-states-factory";
 
 export class PasswordForm extends FormState<IApplicantData> {
 
-  type = StateTypes.PASSWORD;
+  type = 'password';
   form = new FormGroup({
     password: new FormControl(
       '',

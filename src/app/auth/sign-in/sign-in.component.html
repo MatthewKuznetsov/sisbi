@@ -1,0 +1,30 @@
+<div class="container">
+
+  <div class="row">
+    <div class="column">
+      <h3>Войти в аккаунт</h3>
+      <span class="sign">Войдите чтобы продолжить</span>
+
+      <form [formGroup]="form">
+        <tui-input tuiAutoFocus formControlName="login">E-mail или телефон</tui-input>
+        <tui-field-error formControlName="login"></tui-field-error>
+        <tui-input-password formControlName="password">Пароль</tui-input-password>
+        <tui-field-error formControlName="password"></tui-field-error>
+      </form>
+
+      <a tuiButton class="cta-button" shape="rounded" [showLoader]="!!(loading$ | async)"
+        [disabled]="!form.valid" (click)="submit()">
+        Войти <tui-svg src="tuiIconArrowRight"></tui-svg>
+      </a>
+      
+      <sis-social-sign-up-buttons></sis-social-sign-up-buttons>
+
+      <p class="sign-up-link">Нет учётной записи? <a [routerLink]="['/sign-up']" tuiLink>Зарегистрироваться</a></p>
+
+    </div>
+    <div class="column">
+      <img class="illustration" src="assets/illustrations/illustration_3.svg">
+    </div>
+  </div>
+ 
+</div>

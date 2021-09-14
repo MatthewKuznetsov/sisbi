@@ -3,10 +3,8 @@ import { Router } from '@angular/router';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../../auth.service';
-import { EmailForm } from './states/email-form';
-import { FormState, StateTypes } from '../statefull-form/form-state';
-import { PhoneForm } from './states/phone-form';
-import { IStatefullForm } from '../statefull-form/statefull';
+import { FormState } from '../../statefull-form/form-state';
+import { IStatefullForm } from '../../statefull-form/statefull';
 import { ApplicantStatesFactory } from './applicant-states-factory';
 
 export interface IApplicantData {
@@ -69,7 +67,7 @@ export class ApplicantComponent implements IStatefullForm<IApplicantData> {
   }
 
   hasPrev(): boolean {
-    return this.state.type !== StateTypes.PHONE && this.state.type !== StateTypes.EMAIL;
+    return this.state.type !== 'phone' && this.state.type !== 'email';
   }
 
   getUsername(): string | undefined {

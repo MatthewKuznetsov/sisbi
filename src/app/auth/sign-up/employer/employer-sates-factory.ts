@@ -1,6 +1,6 @@
 import { Router } from "@angular/router";
 import { AuthService } from "../../auth.service";
-import { IStatefullForm } from "../statefull-form/statefull";
+import { IStatefullForm } from "../../statefull-form/statefull";
 import { IEmployerData } from "./employer.component";
 import { EmailForm } from "./states/email-form";
 import { EmailVerificationForm } from "./states/email-verification-form";
