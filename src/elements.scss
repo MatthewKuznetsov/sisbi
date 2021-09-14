@@ -1,0 +1,24 @@
+.social-sign-button {
+    cursor: pointer;
+    border: none;
+    padding: 12px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--tui-base-01);
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include transition(box-shadow, 200ms);
+    @include shadow(1);
+    
+    &:hover {
+        @include shadow(2);
+    }
+
+    img {
+        max-width: 25px;
+        max-height: 25px;
+        display: block;
+    }
+}
