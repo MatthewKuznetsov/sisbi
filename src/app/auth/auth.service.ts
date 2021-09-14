@@ -85,7 +85,12 @@ export class AuthService {
       );
   }
 
-  signUpAsEmployer$(login: string, password: string, name: string, organization: string): Observable<IUser | undefined> {
+  signUpAsEmployer$(
+    login: string,
+    password: string,
+    name: string,
+    organization: string
+  ): Observable<IUser | undefined> {
     return timer(200)
       .pipe(
         mapTo<number, IUser>({} as IUser),

@@ -1,24 +1,24 @@
 // Owerwritten TUI colors from @taiga-ui\core\styles\theme\variables.less
 :root {
 
-    --tui-primary: hsl(29, 100%, 54%); // primary buttons, background
-    --tui-primary-hover: hsl(29, 100%, 62%); // primary buttons hover
-    --tui-primary-active: hsl(29, 86%, 54%); // primary buttons hover
-    --tui-primary-text: #fff; // text on primary background
+  --tui-primary: hsl(29, 100%, 54%); // primary buttons, background
+  --tui-primary-hover: hsl(29, 100%, 62%); // primary buttons hover
+  --tui-primary-active: hsl(29, 86%, 54%); // primary buttons hover
+  --tui-primary-text: #fff; // text on primary background
 
-    --tui-accent: hsl(223, 92%, 53%); // fill and outline of accent elements
-    --tui-accent-hover: hsl(223, 92%, 61%); // accent elements hover
-    --tui-accent-active: hsl(223, 82%, 53%); // accent elements pressed
-    --tui-accent-text: #fff; // text on accent background
+  --tui-accent: hsl(223, 92%, 53%); // fill and outline of accent elements
+  --tui-accent-hover: hsl(223, 92%, 61%); // accent elements hover
+  --tui-accent-active: hsl(223, 82%, 53%); // accent elements pressed
+  --tui-accent-text: #fff; // text on accent background
 
-    --tui-secondary: hsl(29, 100%, 96%); // inputs and secondary buttons
-    --tui-secondary-hover: hsl(29, 45%, 91%); // inputs and secondary buttons hover
-    --tui-secondary-active: hsl(29, 50%, 90%); // inputs and secondary buttons pressed
+  --tui-secondary: hsl(29, 100%, 96%); // inputs and secondary buttons
+  --tui-secondary-hover: hsl(29, 45%, 91%); // inputs and secondary buttons hover
+  --tui-secondary-active: hsl(29, 50%, 90%); // inputs and secondary buttons pressed
 
-    --tui-link: hsl(29, 100%, 54%);
-    --tui-link-hover: hsl(29, 100%, 62%);
+  --tui-link: hsl(29, 100%, 54%);
+  --tui-link-hover: hsl(29, 100%, 62%);
 
-    --tui-link-night: hsl(29, 100%, 54%);
-    --tui-link-night-hover: hsl(29, 100%, 62%);
+  --tui-link-night: hsl(29, 100%, 54%);
+  --tui-link-night-hover: hsl(29, 100%, 62%);
 
 }
