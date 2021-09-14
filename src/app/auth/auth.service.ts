@@ -85,6 +85,11 @@ export class AuthService {
       );
   }
 
+  setPassword$(login: string, password: string): Observable<IUser | undefined> {
+    return timer(200)
+      .pipe( mapTo<number, IUser>({} as IUser));
+  }
+
   signUpAsEmployer$(
     login: string,
     password: string,

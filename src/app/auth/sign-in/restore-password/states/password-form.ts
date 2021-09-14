@@ -1,11 +1,11 @@
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
-import { IApplicantData } from "../applicant.component";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { passwordValidator } from "src/app/core/helpers";
-import { ApplicantStatesFactory } from "../applicant-states-factory";
+import { IRestorePasswordData } from "../restore-password.component";
+import { RestorePasswordStatesFactory } from "../restore-password-states-factory";
 
-export class PasswordForm extends FormState<IApplicantData> {
+export class PasswordForm extends FormState<IRestorePasswordData> {
 
   type = 'password';
   form = new FormGroup({
@@ -26,8 +26,8 @@ export class PasswordForm extends FormState<IApplicantData> {
   }, [this.confirmPasswordValidator()]);
 
   constructor(
-    public target: IStatefullForm<IApplicantData>,
-    private factory: ApplicantStatesFactory,
+    public target: IStatefullForm<IRestorePasswordData>,
+    private factory: RestorePasswordStatesFactory,
   ) { super(); }
 
   next(): void {
@@ -37,12 +37,12 @@ export class PasswordForm extends FormState<IApplicantData> {
       throw new Error('No phone number or email were received from previous steps');
     }
     this.factory.authService
-      .signUpAsApplicant$(
+      .setPassword$(
         (this.target.data.phone || this.target.data.email)!,
         this.form?.get('password')?.value
       )
       .subscribe({
-        next: () => this.factory.router.navigate(['/']),
+        next: () => this.factory.router.navigate(['/sign-in']),
         error: () => this.form.reset()
       });
   }

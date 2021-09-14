@@ -43,13 +43,14 @@
           </div>
           
           <div *ngIf="state.type === 'password'">
-            <span class="sign">Введите номер телефона</span>
+            <span class="sign">Придумайте пароль</span>
             <input class="hidden" name="username" [value]="getUsername()">
             <ng-container [formGroup]="state.form">
               <tui-input-password tuiAutoFocus formControlName="password">Введите пароль</tui-input-password>
               <tui-field-error formControlName="password"></tui-field-error>
               <tui-input-password formControlName="confirmPassword">Подтвердите пароль</tui-input-password>
               <tui-field-error formControlName="confirmPassword"></tui-field-error>
+              <tui-field-error [formGroup]="state.form"></tui-field-error>
             </ng-container>
           </div>
   
@@ -64,7 +65,7 @@
 
         <sis-social-sign-up-buttons></sis-social-sign-up-buttons>
   
-        <p class="sign-in-link">Уже регистрировались? <a [routerLink]="['/sign-in']" tuiLink>Войти</a></p>
+        <p class="sign-in-link">Уже есть аккаунт? <a [routerLink]="['/sign-in']" tuiLink>Войти</a></p>
 
       </div>
       <div class="column">

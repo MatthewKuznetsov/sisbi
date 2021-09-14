@@ -21,10 +21,9 @@ export class PasswordForm extends FormState<IEmployerData> {
       [
         Validators.required,
         passwordValidator(),
-        this.confirmPasswordValidator.bind(this)
       ]
     )
-  });
+  }, [this.confirmPasswordValidator()]);
 
   constructor(
     public target: IStatefullForm<IEmployerData>,
@@ -62,8 +61,10 @@ export class PasswordForm extends FormState<IEmployerData> {
 
   confirmPasswordValidator(): ValidatorFn {
     return (input: AbstractControl): ValidationErrors | null => {
-      const equals = this.form?.get('password')?.value === input.value;
-      return equals ? null : { notTheSamePassword: "Пароль не совпадает с ранее введённым" };
+      const first = input?.get('password')?.value;
+      const second = input?.get('confirmPassword')?.value;
+      const equals = first === second;
+      return equals ? null : { notTheSamePassword: "Пароли не совпадают" };
     };
   };
 
