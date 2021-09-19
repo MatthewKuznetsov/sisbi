@@ -1,7 +1,6 @@
 import { Router } from "@angular/router";
 import { AuthService } from "../../auth.service";
 import { IStatefullForm } from "../../statefull-form/statefull";
-import { IRestorePasswordData } from "./restore-password.component";
 import { EmailForm } from "./states/email-form";
 import { EmailVerificationForm } from "./states/email-verification-form";
 import { PasswordForm } from "./states/password-form";
@@ -13,7 +12,7 @@ export class RestorePasswordStatesFactory {
   private _cache: { [key: string]: any; } = {};
 
   constructor(
-    private target: IStatefullForm<IRestorePasswordData>,
+    private target: IStatefullForm,
     public authService: AuthService,
     public router: Router,
   ) { }

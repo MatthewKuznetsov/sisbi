@@ -1,11 +1,10 @@
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
-import { IEmployerData } from "../employer.component";
 import { passwordValidator } from "src/app/core/helpers";
 import { EmployerStatesFactory } from "../employer-sates-factory";
 
-export class PasswordForm extends FormState<IEmployerData> {
+export class PasswordForm extends FormState {
 
   type = 'password';
   form = new FormGroup({
@@ -26,33 +25,14 @@ export class PasswordForm extends FormState<IEmployerData> {
   }, [this.confirmPasswordValidator()]);
 
   constructor(
-    public target: IStatefullForm<IEmployerData>,
+    public target: IStatefullForm,
     private factory: EmployerStatesFactory,
   ) { super(); }
 
   next(): void {
     if (!this.form.valid) { return; }
-    this.target.loading(true);
-    if (!this.target.data.phone && !this.target.data.email) {
-      throw new Error('No phone number or email were received from previous steps');
-    }
-    if (!this.target.data.name) {
-      throw new Error('No name were received from previous steps');
-    }
-    if (!this.target.data.organization) {
-      throw new Error('No organization were received from previous steps');
-    }
-    this.factory.authService
-      .signUpAsEmployer$(
-        (this.target.data.phone || this.target.data.email)!,
-        this.form?.get('password')?.value,
-        this.target.data.name,
-        this.target.data.organization
-      )
-      .subscribe({
-        next: () => this.factory.router.navigate(['/']),
-        error: () => this.form.reset()
-      });
+    this.target.data.password = this.form?.get('password')?.value;
+    this.target.submit();
   }
 
   prev(): void {

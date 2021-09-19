@@ -1,7 +1,6 @@
 import { Router } from "@angular/router";
 import { AuthService } from "../../auth.service";
 import { IStatefullForm } from "../../statefull-form/statefull";
-import { IApplicantData } from "./applicant.component";
 import { EmailForm } from "./states/email-form";
 import { EmailVerificationForm } from "./states/email-verification-form";
 import { PasswordForm } from "./states/password-form";
@@ -13,7 +12,7 @@ export class ApplicantStatesFactory {
   private _cache: { [key: string]: any; } = {};
 
   constructor(
-    private target: IStatefullForm<IApplicantData>,
+    private target: IStatefullForm,
     public authService: AuthService,
     public router: Router,
   ) { }

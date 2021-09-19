@@ -6,10 +6,9 @@ import { AuthService } from "src/app/auth/auth.service";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { forDigitsValidator } from "src/app/core/helpers";
-import { IRestorePasswordData } from "../restore-password.component";
 import { RestorePasswordStatesFactory } from "../restore-password-states-factory";
 
-export class EmailVerificationForm extends FormState<IRestorePasswordData> {
+export class EmailVerificationForm extends FormState {
 
 
   type = 'email-verification';
@@ -29,7 +28,7 @@ export class EmailVerificationForm extends FormState<IRestorePasswordData> {
   };
 
   constructor(
-    public target: IStatefullForm<IRestorePasswordData>,
+    public target: IStatefullForm,
     private factory: RestorePasswordStatesFactory,
   ) { super(); }
 
@@ -46,7 +45,7 @@ export class EmailVerificationForm extends FormState<IRestorePasswordData> {
 
   codeValidator(
     authService: AuthService,
-    target: IStatefullForm<IRestorePasswordData>,
+    target: IStatefullForm,
   ): AsyncValidatorFn {
     return (input: AbstractControl): Observable<ValidationErrors | null> => {
       target.loading(true);

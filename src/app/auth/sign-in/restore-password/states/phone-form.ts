@@ -2,16 +2,15 @@ import { FormControl, Validators } from "@angular/forms";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { phoneValidator } from "src/app/core/helpers";
-import { IRestorePasswordData } from "../restore-password.component";
 import { RestorePasswordStatesFactory } from "../restore-password-states-factory";
 
-export class PhoneForm extends FormState<IRestorePasswordData> {
+export class PhoneForm extends FormState {
 
   type = 'phone';
   form = new FormControl('', [Validators.required, phoneValidator()])
 
   constructor(
-    public target: IStatefullForm<IRestorePasswordData>,
+    public target: IStatefullForm,
     private factory: RestorePasswordStatesFactory,
   ) { super(); }
 

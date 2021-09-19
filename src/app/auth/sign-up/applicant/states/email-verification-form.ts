@@ -3,13 +3,12 @@ import { TextMaskConfig } from "angular2-text-mask";
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
-import { IApplicantData } from "../applicant.component";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { forDigitsValidator } from "src/app/core/helpers";
 import { ApplicantStatesFactory } from "../applicant-states-factory";
 
-export class EmailVerificationForm extends FormState<IApplicantData> {
+export class EmailVerificationForm extends FormState {
 
 
   type = 'email-verification';
@@ -29,7 +28,7 @@ export class EmailVerificationForm extends FormState<IApplicantData> {
   };
 
   constructor(
-    public target: IStatefullForm<IApplicantData>,
+    public target: IStatefullForm,
     private factory: ApplicantStatesFactory,
   ) { super(); }
 
@@ -46,7 +45,7 @@ export class EmailVerificationForm extends FormState<IApplicantData> {
 
   codeValidator(
     authService: AuthService,
-    target: IStatefullForm<IApplicantData>,
+    target: IStatefullForm,
   ): AsyncValidatorFn {
     return (input: AbstractControl): Observable<ValidationErrors | null> => {
       target.loading(true);

@@ -7,9 +7,8 @@ import { forDigitsValidator } from "src/app/core/helpers";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { EmployerStatesFactory } from "../employer-sates-factory";
-import { IEmployerData } from "../employer.component";
 
-export class SmsVerificationForm extends FormState<IEmployerData> {
+export class SmsVerificationForm extends FormState {
 
   type = 'sms-verification';
   form = new FormControl(
@@ -29,7 +28,7 @@ export class SmsVerificationForm extends FormState<IEmployerData> {
   };
 
   constructor(
-    public target: IStatefullForm<IEmployerData>,
+    public target: IStatefullForm,
     private factory: EmployerStatesFactory,
   ) { super(); }
 
@@ -46,7 +45,7 @@ export class SmsVerificationForm extends FormState<IEmployerData> {
 
   codeValidator(
     authService: AuthService,
-    target: IStatefullForm<IEmployerData>,
+    target: IStatefullForm,
   ): AsyncValidatorFn {
     return (input: AbstractControl): Observable<ValidationErrors | null> => {
       target.loading(true);

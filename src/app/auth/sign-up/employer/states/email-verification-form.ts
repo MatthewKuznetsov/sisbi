@@ -5,11 +5,10 @@ import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
-import { IEmployerData } from "../employer.component";
 import { forDigitsValidator } from "src/app/core/helpers";
 import { EmployerStatesFactory } from "../employer-sates-factory";
 
-export class EmailVerificationForm extends FormState<IEmployerData> {
+export class EmailVerificationForm extends FormState {
 
 
   type = 'email-verification';
@@ -29,7 +28,7 @@ export class EmailVerificationForm extends FormState<IEmployerData> {
   };
 
   constructor(
-    public target: IStatefullForm<IEmployerData>,
+    public target: IStatefullForm,
     private factory: EmployerStatesFactory,
   ) { super(); }
 
@@ -46,7 +45,7 @@ export class EmailVerificationForm extends FormState<IEmployerData> {
 
   codeValidator(
     authService: AuthService,
-    target: IStatefullForm<IEmployerData>,
+    target: IStatefullForm,
   ): AsyncValidatorFn {
     return (input: AbstractControl): Observable<ValidationErrors | null> => {
       target.loading(true);

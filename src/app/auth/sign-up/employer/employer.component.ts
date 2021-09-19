@@ -1,20 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
-import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../../auth.service';
 import { FormState } from '../../statefull-form/form-state';
 import { IStatefullForm } from '../../statefull-form/statefull';
 import { EmployerStatesFactory } from './employer-sates-factory';
 
-export interface IEmployerData {
-  phone?: string;
-  email?: string;
-  name?: string;
-  organization?: string;
-  code?: string;
-  password?: string;
-}
 
 @Component({
   selector: 'sis-employer',
@@ -27,29 +18,45 @@ export interface IEmployerData {
     },
   ],
 })
-export class EmployerComponent implements IStatefullForm<IEmployerData> {
+export class EmployerComponent extends IStatefullForm {
 
-  private _loading$$ = new BehaviorSubject<boolean>(false);
   private _statesFactory: EmployerStatesFactory;
-
-  loading$ = this._loading$$.asObservable();
-  state!: FormState<IEmployerData>;
-  data: IEmployerData = {};
+  state!: FormState;
 
   constructor(
-    authService: AuthService,
-    router: Router,
+    private _authService: AuthService,
+    private _router: Router,
   ) {
-    this._statesFactory = new EmployerStatesFactory(this, authService, router);
+    super();
+    this._statesFactory = new EmployerStatesFactory(this, _authService, _router);
     this.useEmail();
   }
 
-  loading(status: boolean): void {
-    this._loading$$.next(status);
-  }
-
-  setState(state: FormState<IEmployerData>) {
-    this.state = state;
+  submit(): void {
+    this.loading(true);
+    if (!this.data.phone && !this.data.email) {
+      throw new Error('No phone number or email were received from previous steps');
+    }
+    if (!this.data.name) {
+      throw new Error('No name were received from previous steps');
+    }
+    if (!this.data.organization) {
+      throw new Error('No organization were received from previous steps');
+    }
+    if (!this.data.password) {
+      throw new Error('No password was received from previous steps');
+    }
+    this._authService
+      .signUpAsEmployer$(
+        (this.data.phone || this.data.email)!,
+        this.data.password,
+        this.data.name,
+        this.data.organization
+      )
+      .subscribe({
+        next: () => this._router.navigate(['/']),
+        error: () => this.useEmail()
+      });
   }
 
   useEmail(): void {
@@ -58,18 +65,6 @@ export class EmployerComponent implements IStatefullForm<IEmployerData> {
 
   usePhone(): void {
     this.setState(this._statesFactory.phoneForm);
-  }
-
-  next() {
-    this.state.next();
-  }
-
-  prev(): void {
-    this.state.prev();
-  }
-
-  hasPrev(): boolean {
-    return this.state.type !== 'phone' && this.state.type !== 'email';
   }
 
   getUsername(): string | undefined {

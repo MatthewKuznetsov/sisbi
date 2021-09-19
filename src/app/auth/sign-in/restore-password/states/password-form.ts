@@ -2,10 +2,9 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn,
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { passwordValidator } from "src/app/core/helpers";
-import { IRestorePasswordData } from "../restore-password.component";
 import { RestorePasswordStatesFactory } from "../restore-password-states-factory";
 
-export class PasswordForm extends FormState<IRestorePasswordData> {
+export class PasswordForm extends FormState {
 
   type = 'password';
   form = new FormGroup({
@@ -26,25 +25,14 @@ export class PasswordForm extends FormState<IRestorePasswordData> {
   }, [this.confirmPasswordValidator()]);
 
   constructor(
-    public target: IStatefullForm<IRestorePasswordData>,
+    public target: IStatefullForm,
     private factory: RestorePasswordStatesFactory,
   ) { super(); }
 
   next(): void {
     if (!this.form.valid) { return; }
-    this.target.loading(true);
-    if (!this.target.data.phone && !this.target.data.email) {
-      throw new Error('No phone number or email were received from previous steps');
-    }
-    this.factory.authService
-      .setPassword$(
-        (this.target.data.phone || this.target.data.email)!,
-        this.form?.get('password')?.value
-      )
-      .subscribe({
-        next: () => this.factory.router.navigate(['/sign-in']),
-        error: () => this.form.reset()
-      });
+    this.target.data.password = this.form?.get('password')?.value;
+    this.target.submit();
   }
 
   prev(): void {

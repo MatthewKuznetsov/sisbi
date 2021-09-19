@@ -3,15 +3,14 @@ import { phoneValidator } from "src/app/core/helpers";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { EmployerStatesFactory } from "../employer-sates-factory";
-import { IEmployerData } from "../employer.component";
 
-export class PhoneForm extends FormState<IEmployerData> {
+export class PhoneForm extends FormState {
 
   type = 'phone';
   form = new FormControl('', [Validators.required, phoneValidator()])
 
   constructor(
-    public target: IStatefullForm<IEmployerData>,
+    public target: IStatefullForm,
     private factory: EmployerStatesFactory,
   ) { super(); }
 

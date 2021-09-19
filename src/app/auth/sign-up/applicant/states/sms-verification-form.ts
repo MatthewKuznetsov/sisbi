@@ -4,12 +4,11 @@ import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
 import { forDigitsValidator } from "src/app/core/helpers";
-import { IApplicantData } from "../../applicant/applicant.component";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { ApplicantStatesFactory } from "../applicant-states-factory";
 
-export class SmsVerificationForm extends FormState<IApplicantData> {
+export class SmsVerificationForm extends FormState {
 
   type = 'sms-verification';
   form = new FormControl(
@@ -29,7 +28,7 @@ export class SmsVerificationForm extends FormState<IApplicantData> {
   };
 
   constructor(
-    public target: IStatefullForm<IApplicantData>,
+    public target: IStatefullForm,
     private factory: ApplicantStatesFactory,
   ) { super(); }
 
@@ -46,7 +45,7 @@ export class SmsVerificationForm extends FormState<IApplicantData> {
 
   codeValidator(
     authService: AuthService,
-    target: IStatefullForm<IApplicantData>,
+    target: IStatefullForm,
   ): AsyncValidatorFn {
     return (input: AbstractControl): Observable<ValidationErrors | null> => {
       target.loading(true);
