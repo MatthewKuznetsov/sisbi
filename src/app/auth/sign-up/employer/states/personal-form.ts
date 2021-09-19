@@ -27,7 +27,7 @@ export class PersonalForm extends FormState {
     this.target.setState(this.factory.passwordForm);
   }
 
-  prev(): void {
+  prev = (): void => {
     this.target.data = {};
     this.target.setState(this.factory.emailForm);
   }

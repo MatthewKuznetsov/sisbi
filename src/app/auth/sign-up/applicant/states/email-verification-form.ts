@@ -38,7 +38,7 @@ export class EmailVerificationForm extends FormState {
     this.target.setState(this.factory.passwordForm);
   }
 
-  prev(): void {
+  prev = (): void => {
     this.target.data.email = undefined;
     this.target.setState(this.factory.emailForm);
   }

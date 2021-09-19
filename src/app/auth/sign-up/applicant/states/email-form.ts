@@ -32,6 +32,4 @@ export class EmailForm extends FormState {
       });
   }
 
-  prev(): void { }
-
 }

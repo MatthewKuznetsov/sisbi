@@ -35,7 +35,7 @@ export class PasswordForm extends FormState {
     this.target.submit();
   }
 
-  prev(): void {
+  prev = (): void => {
     this.target.setState(this.factory.personalForm);
   }
 

@@ -38,7 +38,7 @@ export class SmsVerificationForm extends FormState {
     this.target.setState(this.factory.personalForm);
   }
 
-  prev(): void {
+  prev = (): void => {
     this.target.data.phone = undefined;
     this.target.setState(this.factory.phoneForm);
   }

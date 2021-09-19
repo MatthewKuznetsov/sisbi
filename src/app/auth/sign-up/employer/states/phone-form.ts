@@ -32,6 +32,4 @@ export class PhoneForm extends FormState {
       });
   }
 
-  prev(): void { }
-
 }
