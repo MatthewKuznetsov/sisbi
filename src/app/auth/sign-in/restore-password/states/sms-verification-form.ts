@@ -3,15 +3,14 @@ import { TextMaskConfig } from "angular2-text-mask";
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
+import { forDigitsValidator } from "src/app/core/helpers";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
-import { forDigitsValidator } from "src/app/core/helpers";
-import { ApplicantStatesFactory } from "../applicant-states-factory";
+import { RestorePasswordStatesFactory } from "../restore-password-states-factory";
 
-export class EmailVerificationForm extends FormState {
+export class SmsVerificationForm extends FormState {
 
-
-  type = 'email-verification';
+  type = 'sms-verification';
   form = new FormControl(
     '',
     [
@@ -19,9 +18,10 @@ export class EmailVerificationForm extends FormState {
       forDigitsValidator(),
     ],
     [
-      this.codeValidator(this.factory.authService, this.target).bind(this)
+      this.codeValidator(this.factory.authService, this.target)
     ]
   );
+
   mask: TextMaskConfig = {
     guide: false,
     mask: [ /\d/, /\d/, /\d/, /\d/ ]
@@ -29,7 +29,7 @@ export class EmailVerificationForm extends FormState {
 
   constructor(
     public target: IStatefullForm,
-    private factory: ApplicantStatesFactory,
+    private factory: RestorePasswordStatesFactory,
   ) { super(); }
 
   next(): void {
@@ -39,8 +39,8 @@ export class EmailVerificationForm extends FormState {
   }
 
   prev = (): void => {
-    this.target.data.email = undefined;
-    this.target.setState(this.factory.emailForm);
+    this.target.data.phone = undefined;
+    this.target.setState(this.factory.phoneForm);
   }
 
   codeValidator(
@@ -49,12 +49,12 @@ export class EmailVerificationForm extends FormState {
   ): AsyncValidatorFn {
     return (input: AbstractControl): Observable<ValidationErrors | null> => {
       target.loading(true);
-      if (!target.data.email) {
-        throw new Error('No email were received from previous step');
+      if (!target.data.phone) {
+        throw new Error('No phone number were received from previous step');
       }
-      return authService.verifyEmailCode$(
+      return authService.verifySmsCode$(
         input.value,
-        target.data.email
+        target.data.phone
       ).pipe(
         map(res => res ? null : { invalidCode: "Неверный код" }),
         catchError(() => of({ invalidCode: "Неверный код" })),

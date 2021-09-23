@@ -1,29 +1,30 @@
 import { FormControl, Validators } from "@angular/forms";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
-import { emailValidator } from "src/app/core/helpers";
-import { ApplicantStatesFactory } from "../applicant-states-factory";
+import { phoneValidator } from "src/app/core/helpers";
+import { RestorePasswordStatesFactory } from "../restore-password-states-factory";
 
-export class EmailForm extends FormState {
+export class PhoneForm extends FormState {
 
-  type = 'email';
-  form = new FormControl('', [Validators.required, emailValidator()])
+  type = 'phone';
+  form = new FormControl('', [Validators.required, phoneValidator()])
 
   constructor(
     public target: IStatefullForm,
-    private factory: ApplicantStatesFactory,
+    private factory: RestorePasswordStatesFactory,
   ) { super(); }
 
   next(): void {
     if (!this.form.valid) { return; }
     this.target.loading(true);
     this.factory.authService
-      .verifyEmail$(this.form.value)
+      .verifyPhone$(this.form.value)
       .subscribe({
-        next: () => {
+        next: user => {
           this.target.loading(false);
-          this.target.data.email = this.form.value;
-          this.target.setState(this.factory.emailVerificationForm);
+          this.target.data.user = user;
+          this.target.data.phone = this.form.value;
+          this.target.setState(this.factory.smsVerificationForm);
         },
         error: () => {
           this.target.loading(false);

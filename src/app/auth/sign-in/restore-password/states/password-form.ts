@@ -2,7 +2,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn,
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { passwordValidator } from "src/app/core/helpers";
-import { EmployerStatesFactory } from "../employer-sates-factory";
+import { RestorePasswordStatesFactory } from "../restore-password-states-factory";
 
 export class PasswordForm extends FormState {
 
@@ -26,7 +26,7 @@ export class PasswordForm extends FormState {
 
   constructor(
     public target: IStatefullForm,
-    private factory: EmployerStatesFactory,
+    private factory: RestorePasswordStatesFactory,
   ) { super(); }
 
   next(): void {
@@ -36,7 +36,8 @@ export class PasswordForm extends FormState {
   }
 
   prev = (): void => {
-    this.target.setState(this.factory.personalForm);
+    this.target.data = {};
+    this.target.setState(this.factory.emailForm);
   }
 
   confirmPasswordValidator(): ValidatorFn {

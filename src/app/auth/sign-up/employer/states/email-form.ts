@@ -3,15 +3,14 @@ import { emailValidator } from "src/app/core/helpers";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { EmployerStatesFactory } from "../employer-sates-factory";
-import { IEmployerData } from "../employer.component";
 
-export class EmailForm extends FormState<IEmployerData> {
+export class EmailForm extends FormState {
 
   type = 'email';
   form = new FormControl('', [Validators.required, emailValidator()])
 
   constructor(
-    public target: IStatefullForm<IEmployerData>,
+    public target: IStatefullForm,
     private factory: EmployerStatesFactory,
   ) { super(); }
 
@@ -32,7 +31,5 @@ export class EmailForm extends FormState<IEmployerData> {
         }
       });
   }
-
-  prev(): void { }
 
 }

@@ -1,17 +1,16 @@
 import { FormControl, Validators } from "@angular/forms";
-import { IApplicantData } from "../applicant.component";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { phoneValidator } from "src/app/core/helpers";
 import { ApplicantStatesFactory } from "../applicant-states-factory";
 
-export class PhoneForm extends FormState<IApplicantData> {
+export class PhoneForm extends FormState {
 
   type = 'phone';
   form = new FormControl('', [Validators.required, phoneValidator()])
 
   constructor(
-    public target: IStatefullForm<IApplicantData>,
+    public target: IStatefullForm,
     private factory: ApplicantStatesFactory,
   ) { super(); }
 
@@ -32,7 +31,5 @@ export class PhoneForm extends FormState<IApplicantData> {
         }
       });
   }
-
-  prev(): void { }
 
 }

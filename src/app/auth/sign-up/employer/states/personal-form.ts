@@ -2,9 +2,8 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { EmployerStatesFactory } from "../employer-sates-factory";
-import { IEmployerData } from "../employer.component";
 
-export class PersonalForm extends FormState<IEmployerData> {
+export class PersonalForm extends FormState {
 
   type = 'personal';
   form = new FormGroup({
@@ -13,7 +12,7 @@ export class PersonalForm extends FormState<IEmployerData> {
   });
 
   constructor(
-    public target: IStatefullForm<IEmployerData>,
+    public target: IStatefullForm,
     private factory: EmployerStatesFactory,
   ) {
     super();
@@ -28,7 +27,7 @@ export class PersonalForm extends FormState<IEmployerData> {
     this.target.setState(this.factory.passwordForm);
   }
 
-  prev(): void {
+  prev = (): void => {
     this.target.data = {};
     this.target.setState(this.factory.emailForm);
   }
