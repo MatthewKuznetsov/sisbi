@@ -20,8 +20,9 @@ export class PhoneForm extends FormState {
     this.factory.authService
       .verifyPhone$(this.form.value)
       .subscribe({
-        next: () => {
+        next: user => {
           this.target.loading(false);
+          this.target.data.user = user;
           this.target.data.phone = this.form.value;
           this.target.setState(this.factory.smsVerificationForm);
         },

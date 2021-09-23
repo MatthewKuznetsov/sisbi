@@ -58,7 +58,10 @@ export class RestorePasswordComponent extends IStatefullForm {
   }
 
   getUsername(): string | undefined {
-    return this.data.email || this.data.phone;
+    if (!(this.data.user.Email || this.data.user.Phone)) {
+      throw new Error('No username was provided');
+    }
+    return this.data.user.Email || this.data.user.Phone;
   }
 
 }

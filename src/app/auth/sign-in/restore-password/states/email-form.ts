@@ -20,8 +20,9 @@ export class EmailForm extends FormState {
     this.factory.authService
       .verifyEmail$(this.form.value)
       .subscribe({
-        next: () => {
+        next: user => {
           this.target.loading(false);
+          this.target.data.user = user;
           this.target.data.email = this.form.value;
           this.target.setState(this.factory.emailVerificationForm);
         },

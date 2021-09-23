@@ -110,12 +110,12 @@ export class AuthService {
       );
   }
 
-  verifyPhone$(phone: string): Observable<void> {
-    return timer(200).pipe(mapTo(undefined));
+  verifyPhone$(phone: string): Observable<IUser> {
+    return timer(200).pipe(mapTo({ Phone: '+77777777777' } as IUser));
   }
 
-  verifyEmail$(email: string): Observable<void> {
-    return timer(200).pipe(mapTo(undefined));
+  verifyEmail$(email: string): Observable<IUser> {
+    return timer(200).pipe(mapTo({ Email: 'foo@boo.ru' } as IUser));
   }
 
   verifySmsCode$(code: string, phone: string): Observable<boolean> {
