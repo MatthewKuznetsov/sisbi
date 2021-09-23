@@ -3,16 +3,15 @@ import { TextMaskConfig } from "angular2-text-mask";
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
-import { FormState, StateTypes } from "../../statefull-form/form-state";
-import { IStatefullForm } from "../../statefull-form/statefull";
-import { IEmployerData } from "../employer.component";
+import { FormState } from "../../../statefull-form/form-state";
+import { IStatefullForm } from "../../../statefull-form/statefull";
 import { forDigitsValidator } from "src/app/core/helpers";
 import { EmployerStatesFactory } from "../employer-sates-factory";
 
-export class EmailVerificationForm extends FormState<IEmployerData> {
+export class EmailVerificationForm extends FormState {
 
 
-  type = StateTypes.EMAIL_VERIFICATION;
+  type = 'email-verification';
   form = new FormControl(
     '',
     [
@@ -29,7 +28,7 @@ export class EmailVerificationForm extends FormState<IEmployerData> {
   };
 
   constructor(
-    public target: IStatefullForm<IEmployerData>,
+    public target: IStatefullForm,
     private factory: EmployerStatesFactory,
   ) { super(); }
 
@@ -39,14 +38,14 @@ export class EmailVerificationForm extends FormState<IEmployerData> {
     this.target.setState(this.factory.personalForm);
   }
 
-  prev(): void {
+  prev = (): void => {
     this.target.data.email = undefined;
     this.target.setState(this.factory.emailForm);
   }
 
   codeValidator(
     authService: AuthService,
-    target: IStatefullForm<IEmployerData>,
+    target: IStatefullForm,
   ): AsyncValidatorFn {
     return (input: AbstractControl): Observable<ValidationErrors | null> => {
       target.loading(true);

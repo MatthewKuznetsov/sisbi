@@ -1,19 +1,18 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { FormState, StateTypes } from "../../statefull-form/form-state";
-import { IStatefullForm } from "../../statefull-form/statefull";
+import { FormState } from "../../../statefull-form/form-state";
+import { IStatefullForm } from "../../../statefull-form/statefull";
 import { EmployerStatesFactory } from "../employer-sates-factory";
-import { IEmployerData } from "../employer.component";
 
-export class PersonalForm extends FormState<IEmployerData> {
+export class PersonalForm extends FormState {
 
-  type = StateTypes.PERSONAL;
+  type = 'personal';
   form = new FormGroup({
     name: new FormControl('', [Validators.required]),
     organization: new FormControl('', [Validators.required])
   });
 
   constructor(
-    public target: IStatefullForm<IEmployerData>,
+    public target: IStatefullForm,
     private factory: EmployerStatesFactory,
   ) {
     super();
@@ -28,7 +27,7 @@ export class PersonalForm extends FormState<IEmployerData> {
     this.target.setState(this.factory.passwordForm);
   }
 
-  prev(): void {
+  prev = (): void => {
     this.target.data = {};
     this.target.setState(this.factory.emailForm);
   }

@@ -7,7 +7,7 @@ import { PasswordForm } from "./states/password-form";
 import { PhoneForm } from "./states/phone-form";
 import { SmsVerificationForm } from "./states/sms-verification-form";
 
-export class ApplicantStatesFactory {
+export class RestorePasswordStatesFactory {
 
   private _cache: { [key: string]: any; } = {};
 

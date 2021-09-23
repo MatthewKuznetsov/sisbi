@@ -4,14 +4,13 @@ import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { AuthService } from "src/app/auth/auth.service";
 import { forDigitsValidator } from "src/app/core/helpers";
-import { FormState, StateTypes } from "../../statefull-form/form-state";
-import { IStatefullForm } from "../../statefull-form/statefull";
+import { FormState } from "../../../statefull-form/form-state";
+import { IStatefullForm } from "../../../statefull-form/statefull";
 import { EmployerStatesFactory } from "../employer-sates-factory";
-import { IEmployerData } from "../employer.component";
 
-export class SmsVerificationForm extends FormState<IEmployerData> {
+export class SmsVerificationForm extends FormState {
 
-  type = StateTypes.SMS_VERIFICATION;
+  type = 'sms-verification';
   form = new FormControl(
     '',
     [
@@ -29,7 +28,7 @@ export class SmsVerificationForm extends FormState<IEmployerData> {
   };
 
   constructor(
-    public target: IStatefullForm<IEmployerData>,
+    public target: IStatefullForm,
     private factory: EmployerStatesFactory,
   ) { super(); }
 
@@ -39,14 +38,14 @@ export class SmsVerificationForm extends FormState<IEmployerData> {
     this.target.setState(this.factory.personalForm);
   }
 
-  prev(): void {
+  prev = (): void => {
     this.target.data.phone = undefined;
     this.target.setState(this.factory.phoneForm);
   }
 
   codeValidator(
     authService: AuthService,
-    target: IStatefullForm<IEmployerData>,
+    target: IStatefullForm,
   ): AsyncValidatorFn {
     return (input: AbstractControl): Observable<ValidationErrors | null> => {
       target.loading(true);

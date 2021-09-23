@@ -4,13 +4,11 @@ import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { AuthService } from '../../auth.service';
 import { FormState } from '../../statefull-form/form-state';
 import { IStatefullForm } from '../../statefull-form/statefull';
-import { EmployerStatesFactory } from './employer-sates-factory';
-
+import { RestorePasswordStatesFactory } from './restore-password-states-factory';
 
 @Component({
-  selector: 'sis-employer',
-  templateUrl: './employer.component.html',
-  styleUrls: ['./employer.component.scss'],
+  templateUrl: './restore-password.component.html',
+  styleUrls: ['./restore-password.component.scss'],
   providers: [
     {
       provide: TUI_VALIDATION_ERRORS,
@@ -18,9 +16,9 @@ import { EmployerStatesFactory } from './employer-sates-factory';
     },
   ],
 })
-export class EmployerComponent extends IStatefullForm {
+export class RestorePasswordComponent extends IStatefullForm {
 
-  private _statesFactory: EmployerStatesFactory;
+  private _statesFactory: RestorePasswordStatesFactory;
   state!: FormState;
 
   constructor(
@@ -28,7 +26,7 @@ export class EmployerComponent extends IStatefullForm {
     private _router: Router,
   ) {
     super();
-    this._statesFactory = new EmployerStatesFactory(this, _authService, _router);
+    this._statesFactory = new RestorePasswordStatesFactory(this, _authService, _router);
     this.useEmail();
   }
 
@@ -37,24 +35,16 @@ export class EmployerComponent extends IStatefullForm {
     if (!this.data.phone && !this.data.email) {
       throw new Error('No phone number or email were received from previous steps');
     }
-    if (!this.data.name) {
-      throw new Error('No name were received from previous steps');
-    }
-    if (!this.data.organization) {
-      throw new Error('No organization were received from previous steps');
-    }
     if (!this.data.password) {
       throw new Error('No password was received from previous steps');
     }
     this._authService
-      .signUpAsEmployer$(
+      .setPassword$(
         (this.data.phone || this.data.email)!,
-        this.data.password,
-        this.data.name,
-        this.data.organization
+        this.data.password
       )
       .subscribe({
-        next: () => this._router.navigate(['/']),
+        next: () => this._router.navigate(['/sign-in']),
         error: () => this.useEmail()
       });
   }
@@ -68,7 +58,10 @@ export class EmployerComponent extends IStatefullForm {
   }
 
   getUsername(): string | undefined {
-    return this.data.email || this.data.phone;
+    if (!(this.data.user.Email || this.data.user.Phone)) {
+      throw new Error('No username was provided');
+    }
+    return this.data.user.Email || this.data.user.Phone;
   }
 
 }

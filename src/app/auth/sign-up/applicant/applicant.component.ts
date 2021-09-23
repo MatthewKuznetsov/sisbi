@@ -1,20 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
-import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../../auth.service';
-import { EmailForm } from './states/email-form';
-import { FormState, StateTypes } from '../statefull-form/form-state';
-import { PhoneForm } from './states/phone-form';
-import { IStatefullForm } from '../statefull-form/statefull';
+import { FormState } from '../../statefull-form/form-state';
+import { IStatefullForm } from '../../statefull-form/statefull';
 import { ApplicantStatesFactory } from './applicant-states-factory';
-
-export interface IApplicantData {
-  phone?: string;
-  email?: string;
-  code?: string;
-  password?: string;
-}
 
 @Component({
   selector: 'sis-applicant',
@@ -27,25 +17,37 @@ export interface IApplicantData {
     },
   ],
 })
-export class ApplicantComponent implements IStatefullForm<IApplicantData> {
+export class ApplicantComponent extends IStatefullForm {
 
-  private _loading$$ = new BehaviorSubject<boolean>(false);
   private _statesFactory: ApplicantStatesFactory;
-
-  loading$ = this._loading$$.asObservable();
-  state!: FormState<IApplicantData>;
-  data: IApplicantData = {};
+  state!: FormState;
 
   constructor(
-    authService: AuthService,
-    router: Router,
+    private _authService: AuthService,
+    private _router: Router,
   ) {
-    this._statesFactory = new ApplicantStatesFactory(this, authService, router);
+    super();
+    this._statesFactory = new ApplicantStatesFactory(this, _authService, _router);
     this.useEmail();
   }
 
-  setState(state: FormState<IApplicantData>) {
-    this.state = state;
+  submit(): void {
+    this.loading(true);
+    if (!this.data.phone && !this.data.email) {
+      throw new Error('No phone number or email were received from previous steps');
+    }
+    if (!this.data.password) {
+      throw new Error('No password was received from previous steps');
+    }
+    this._authService
+      .signUpAsApplicant$(
+        (this.data.phone || this.data.email)!,
+        this.data.password
+      )
+      .subscribe({
+        next: () => this._router.navigate(['/']),
+        error: () => this.useEmail()
+      });
   }
 
   useEmail(): void {
@@ -54,22 +56,6 @@ export class ApplicantComponent implements IStatefullForm<IApplicantData> {
 
   usePhone(): void {
     this.setState(this._statesFactory.phoneForm);
-  }
-
-  loading(status: boolean): void {
-    this._loading$$.next(status);
-  }
-
-  next() {
-    this.state.next();
-  }
-
-  prev(): void {
-    this.state.prev();
-  }
-
-  hasPrev(): boolean {
-    return this.state.type !== StateTypes.PHONE && this.state.type !== StateTypes.EMAIL;
   }
 
   getUsername(): string | undefined {

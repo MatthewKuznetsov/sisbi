@@ -6,7 +6,7 @@ import { AuthService } from "src/app/auth/auth.service";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { forDigitsValidator } from "src/app/core/helpers";
-import { ApplicantStatesFactory } from "../applicant-states-factory";
+import { RestorePasswordStatesFactory } from "../restore-password-states-factory";
 
 export class EmailVerificationForm extends FormState {
 
@@ -29,7 +29,7 @@ export class EmailVerificationForm extends FormState {
 
   constructor(
     public target: IStatefullForm,
-    private factory: ApplicantStatesFactory,
+    private factory: RestorePasswordStatesFactory,
   ) { super(); }
 
   next(): void {

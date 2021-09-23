@@ -2,7 +2,7 @@ import { FormControl, Validators } from "@angular/forms";
 import { FormState } from "../../../statefull-form/form-state";
 import { IStatefullForm } from "../../../statefull-form/statefull";
 import { emailValidator } from "src/app/core/helpers";
-import { ApplicantStatesFactory } from "../applicant-states-factory";
+import { RestorePasswordStatesFactory } from "../restore-password-states-factory";
 
 export class EmailForm extends FormState {
 
@@ -11,7 +11,7 @@ export class EmailForm extends FormState {
 
   constructor(
     public target: IStatefullForm,
-    private factory: ApplicantStatesFactory,
+    private factory: RestorePasswordStatesFactory,
   ) { super(); }
 
   next(): void {
@@ -20,8 +20,9 @@ export class EmailForm extends FormState {
     this.factory.authService
       .verifyEmail$(this.form.value)
       .subscribe({
-        next: () => {
+        next: user => {
           this.target.loading(false);
+          this.target.data.user = user;
           this.target.data.email = this.form.value;
           this.target.setState(this.factory.emailVerificationForm);
         },

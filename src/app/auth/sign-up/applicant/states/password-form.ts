@@ -1,13 +1,12 @@
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
-import { IApplicantData } from "../applicant.component";
-import { FormState, StateTypes } from "../../statefull-form/form-state";
-import { IStatefullForm } from "../../statefull-form/statefull";
+import { FormState } from "../../../statefull-form/form-state";
+import { IStatefullForm } from "../../../statefull-form/statefull";
 import { passwordValidator } from "src/app/core/helpers";
 import { ApplicantStatesFactory } from "../applicant-states-factory";
 
-export class PasswordForm extends FormState<IApplicantData> {
+export class PasswordForm extends FormState {
 
-  type = StateTypes.PASSWORD;
+  type = 'password';
   form = new FormGroup({
     password: new FormControl(
       '',
@@ -21,42 +20,32 @@ export class PasswordForm extends FormState<IApplicantData> {
       [
         Validators.required,
         passwordValidator(),
-        this.confirmPasswordValidator.bind(this)
       ]
     )
-  });
+  }, [this.confirmPasswordValidator()]);
 
   constructor(
-    public target: IStatefullForm<IApplicantData>,
+    public target: IStatefullForm,
     private factory: ApplicantStatesFactory,
   ) { super(); }
 
   next(): void {
     if (!this.form.valid) { return; }
-    this.target.loading(true);
-    if (!this.target.data.phone && !this.target.data.email) {
-      throw new Error('No phone number or email were received from previous steps');
-    }
-    this.factory.authService
-      .signUpAsApplicant$(
-        (this.target.data.phone || this.target.data.email)!,
-        this.form?.get('password')?.value
-      )
-      .subscribe({
-        next: () => this.factory.router.navigate(['/']),
-        error: () => this.form.reset()
-      });
+    this.target.data.password = this.form?.get('password')?.value;
+    this.target.submit();
   }
 
-  prev(): void {
+  prev = (): void => {
     this.target.data = {};
     this.target.setState(this.factory.emailForm);
   }
 
   confirmPasswordValidator(): ValidatorFn {
     return (input: AbstractControl): ValidationErrors | null => {
-      const equals = this.form?.get('password')?.value === input.value;
-      return equals ? null : { notTheSamePassword: "Пароль не совпадает с ранее введённым" };
+      const first = input?.get('password')?.value;
+      const second = input?.get('confirmPassword')?.value;
+      const equals = first === second;
+      return equals ? null : { notTheSamePassword: "Пароли не совпадают" };
     };
   };
 
