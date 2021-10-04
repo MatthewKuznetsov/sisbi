@@ -16,8 +16,8 @@ export interface IFakeHttpResponse {
 @Injectable({ providedIn: 'root' })
 export class ResponseMessageResolverService {
 
-  resolve(ok: boolean, status?: number, url?: string | null): IMessageDef {
-    if (ok) {
+  resolve(status: number, url?: string | null): IMessageDef {
+    if (status === 200) {
       return {
         status: TuiNotification.Success,
         message: 'Всё прошло успешно! 😉',

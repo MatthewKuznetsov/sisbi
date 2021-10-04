@@ -19,13 +19,13 @@ export class NotificationsInterceptor implements HttpInterceptor {
         tap(
           event => {
             if (event instanceof HttpResponse) {
-              const message = this._messageResolverService.resolve(event.ok, event.status, event.url);
+              const message = this._messageResolverService.resolve(event.status, event.url);
               this._notificationsService.notify(message.message, message.status);
             }
           },
           error => {
             if (error instanceof HttpErrorResponse) {
-              const message = this._messageResolverService.resolve(error.ok, error.status, error.url);
+              const message = this._messageResolverService.resolve(error.status, error.url);
               this._notificationsService.notify(message.message, message.status);
             }
           }
