@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 
-import { TuiAccordionModule, TuiFieldErrorModule, TuiInputNumberModule, TuiInputModule, TuiInputPasswordModule, TuiInputPhoneModule } from '@taiga-ui/kit';
-import { TuiCalendarModule, TuiButtonModule, TuiSvgModule, TuiLinkModule } from '@taiga-ui/core';
+import { TuiAccordionModule, TuiFieldErrorModule, TuiInputNumberModule, TuiInputModule, TuiInputPasswordModule, TuiInputPhoneModule, TuiAvatarModule } from '@taiga-ui/kit';
+import { TuiCalendarModule, TuiButtonModule, TuiSvgModule, TuiLinkModule, TuiDataListModule, TuiHostedDropdownModule } from '@taiga-ui/core';
 import { TuiAutoFocusModule } from '@taiga-ui/cdk';
 import { TextMaskModule } from 'angular2-text-mask';
 import { SocialSignUpButtonsComponent } from './social-sign-up-buttons/social-sign-up-buttons.component';
+import { AvatarComponent } from './avatar/avatar.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,9 @@ import { SocialSignUpButtonsComponent } from './social-sign-up-buttons/social-si
     TuiFieldErrorModule,
     TuiAutoFocusModule,
     TuiLinkModule,
+    TuiDataListModule,
+    TuiHostedDropdownModule,
+    TuiAvatarModule,
 
     TextMaskModule,
   ],
@@ -34,13 +38,18 @@ import { SocialSignUpButtonsComponent } from './social-sign-up-buttons/social-si
     TuiFieldErrorModule,
     TuiAutoFocusModule,
     TuiLinkModule,
+    TuiDataListModule,
+    TuiHostedDropdownModule,
+    TuiAvatarModule,
 
     TextMaskModule,
 
     SocialSignUpButtonsComponent,
+    AvatarComponent,
   ],
   declarations: [
     SocialSignUpButtonsComponent,
+    AvatarComponent,
   ],
   providers: [],
 })

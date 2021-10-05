@@ -1,0 +1,14 @@
+<tui-hosted-dropdown [content]="content" [(open)]="opened">
+  <button class="menu-trigger" [title]="user.getDisplayName()">
+    <ng-container *ngIf="user">
+      <sis-avatar [user]="user"></sis-avatar>
+      <div class="name text-overflow">{{ user.getDisplayName() }}</div>
+    </ng-container>
+    <tui-svg class="arrow" [class.rotated]="opened" src="tuiIconChevronDown"></tui-svg>
+  </button>
+</tui-hosted-dropdown>
+<ng-template #content>
+  <tui-data-list class="data-list" role="menu">
+    <a tuiOption role="menuitem" (click)="logOut()">Выйти</a>
+  </tui-data-list>
+</ng-template>

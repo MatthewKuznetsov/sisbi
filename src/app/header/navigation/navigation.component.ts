@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'sis-navigation',
+  selector: 'nav[sisNavigation]',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss']
 })

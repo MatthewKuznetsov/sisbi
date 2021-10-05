@@ -1,0 +1,4 @@
+@mixin border($color: 'primary') {
+  border: 1px solid var(--tui-#{$color});
+  border-radius: 8px;
+}
