@@ -4,18 +4,12 @@ import { Observable, of, ReplaySubject, timer } from 'rxjs';
 import { catchError, map, mapTo, tap } from 'rxjs/operators';
 import { API_URL } from '../core/core.module';
 import { LocalStorageService } from '../core/localstorage.service';
-import { IRefreshToken } from '../models/refresh-token/refresh-token.model';
-import { IUser } from '../models/user/user.model';
+import { IToken, Token } from '../models/token/token.model';
+import { IUser, OtpType, Role, User } from '../models/user/user.model';
 
 export interface ITokens {
-  access: string;
-  refresh: IRefreshToken;
-}
-
-interface IDecodedAccessToken {
-  exp: Date;
-  iat: Date;
-  user: string;
+  access: Token;
+  refresh: Token;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -23,13 +17,11 @@ export class AuthService {
 
   private readonly LS_REFRESH_KEY = 'refresh-token';
 
-  private _isAuth$$ = new ReplaySubject<boolean>(1);
-  private _user$$ = new ReplaySubject<IUser>(1);
-  private _accessToken$$ = new ReplaySubject<string>(1);
+  private _user$$ = new ReplaySubject<User | undefined>(1);
+  private _accessToken$$ = new ReplaySubject<Token>(1);
 
-  isAuth$: Observable<boolean> = this._isAuth$$.asObservable();
-  user$: Observable<IUser> = this._user$$.asObservable();
-  accessToken$: Observable<string> = this._accessToken$$.asObservable();
+  user$: Observable<User | undefined> = this._user$$.asObservable();
+  accessToken$: Observable<Token> = this._accessToken$$.asObservable();
 
   constructor(
     @Inject(API_URL)
@@ -37,12 +29,12 @@ export class AuthService {
     private _http: HttpClient,
     private _LSServece: LocalStorageService,
   ) {
-    this._refreshTokens();
+    this.refreshTokens();
   }
 
-  auth$(login: string, password: string): Observable<IUser | undefined> {
+  auth$(login: string, password: string): Observable<User | undefined> {
     return this._http
-      .post<{ refresh: IRefreshToken; user: IUser; }>(
+      .post<{ refresh: IToken; user: IUser; }>(
         `${this._apiUrl}/auth`,
         { login, password },
         {
@@ -51,110 +43,106 @@ export class AuthService {
         }
       )
       .pipe(
+        map(e => ({ ...e, user: e.body?.user && new User(e.body?.user) }) as any),
         map(e => {
-          this._isAuth$$.next(true);
-          const refresh = e.body?.refresh;
-          const access = e.headers
+          if (!e.body) { throw new Error('No response payload'); }
+          const refresh = new Token(e.body.refresh.Token, e.body.refresh.Id);
+          const accessTokenString = e.headers
             .get('Authorization')
             ?.replace('Bearer ', '');
-          if (refresh && access) {
-            this._updateTokens({ refresh, access })
-            return e.body?.user;
-          }
-          throw false;
+          const access = new Token(accessTokenString || '');
+          this._updateTokens({ refresh, access })
+          return e.body?.user;
         }),
         catchError(error => {
-          this._isAuth$$.next(false);
+          console.error(error);
           return of(undefined);
         })
       );
   }
 
-  signUpAsApplicant$(login: string, password: string): Observable<IUser | undefined> {
-    return timer(200)
-      .pipe(
-        mapTo<number, IUser>({} as IUser),
-        tap(e => {
-          this._isAuth$$.next(true);
-          this._user$$.next(e);
-        }),
-        catchError(error => {
-          this._isAuth$$.next(false);
-          return of(undefined);
-        })
-      );
+  verifyPhone$(phone: string): Observable<void> {
+    return this._http.post<void>(
+      `${this._apiUrl}/account/otp/send`,
+      { login: phone, type: OtpType.SignUp }
+    );
   }
 
-  setPassword$(login: string, password: string): Observable<IUser | undefined> {
-    return timer(200)
-      .pipe( mapTo<number, IUser>({} as IUser));
+  verifyEmail$(email: string): Observable<void> {
+    return this._http.post<void>(
+      `${this._apiUrl}/account/otp/send`,
+      { login: email, type: OtpType.SignUp }
+    );
   }
-
-  signUpAsEmployer$(
-    login: string,
-    password: string,
-    name: string,
-    organization: string
-  ): Observable<IUser | undefined> {
-    return timer(200)
-      .pipe(
-        mapTo<number, IUser>({} as IUser),
-        tap(e => {
-          this._isAuth$$.next(true);
-          this._user$$.next(e);
-        }),
-        catchError(error => {
-          this._isAuth$$.next(false);
-          return of(undefined);
-        })
-      );
-  }
-
-  verifyPhone$(phone: string): Observable<IUser> {
-    return timer(200).pipe(mapTo({ Phone: '+77777777777' } as IUser));
-  }
-
-  verifyEmail$(email: string): Observable<IUser> {
-    return timer(200).pipe(mapTo({ Email: 'foo@boo.ru' } as IUser));
-  }
-
+  
   verifySmsCode$(code: string, phone: string): Observable<boolean> {
-    return timer(200).pipe(
-      map(() => Math.random() >= 0.5)
+    return this._http.post<void>(
+      `${this._apiUrl}/account/otp/confirm`,
+      { login: phone, code }
+    ).pipe(
+      mapTo(true),
+      catchError(() => of(false))
+    );
+  }
+  
+  verifyEmailCode$(code: string, email: string): Observable<boolean> {
+    return this._http.post<void>(
+      `${this._apiUrl}/account/otp/confirm`,
+      { login: email, code }
+    ).pipe(
+      mapTo(true),
+      catchError(() => of(false))
     );
   }
 
-  verifyEmailCode$(code: string, email: string): Observable<boolean> {
-    return timer(200).pipe(
-      map(() => Math.random() >= 0.5)
+  signUpAsApplicant$(login: string, password: string): Observable<User> {
+    return this._http.post<IUser>(
+      `${this._apiUrl}/account/signup`,
+      { login, password, role: Role.Worker }
+    ).pipe(
+      map(e => new User(e)),
+      tap(
+        e => {
+          this._user$$.next(e);
+        },
+        () => this._user$$.next(undefined)
+      )
     );
+  }
+
+  signUpAsEmployer$(login: string, password: string, name: string, organization: string): Observable<User> {
+    return this._http.post<IUser>(
+      `${this._apiUrl}/account/signup`,
+      { login, password, name, organization, role: Role.Employer }
+    ).pipe(
+      map(e => new User(e)),
+      tap(
+        e => {
+          this._user$$.next(e);
+        },
+        () => this._user$$.next(undefined)
+      )
+    );
+  }
+
+  setPassword$(login: string, password: string): Observable<User | undefined> {
+    return timer(200)
+      .pipe( mapTo(new User({} as IUser)));
+  }
+
+  refreshTokens(): void {
+    timer(200)
+      .subscribe(() => this._user$$.next(new User({} as IUser)));
   }
 
   private _updateTokens(tokens: ITokens): void {
     this._LSServece.setItem(this.LS_REFRESH_KEY, tokens.refresh);
     this._accessToken$$.next(tokens.access);
-    this._isAuth$$.next(true);
   }
-
-  private _refreshTokens(): void {
-    timer(200)
-      .subscribe(() => this._isAuth$$.next(Math.random() >= 0.5));
-  }
-
-  private _decodeToken(token: string): IDecodedAccessToken {
-    const decoded = JSON.parse(
-      atob(token.split('.')[1])
-    );
-
-    if (decoded.user == null) { throw new Error('Token inavlid user'); }
-    if (decoded.exp == null) { throw new Error('Token inavlid exp'); }
-    if (decoded.iat == null) { throw new Error('Token inavlid iat'); }
-
-    const user = decoded.user as string;
-    const exp = new Date(decoded.exp * 1000);
-    const iat = new Date(decoded.iat * 1000);
-
-    return { user, exp, iat };
+  
+  logOut(): void {
+    this._LSServece.removeItem(this.LS_REFRESH_KEY);
+    this._user$$.next(undefined);
   }
 
 }

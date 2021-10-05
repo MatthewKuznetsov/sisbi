@@ -1,1 +1,8 @@
-<p>header works!</p>
+<nav sisNavigation></nav>
+<sis-profile-miniature *ngIf="user$ | async as user; else notAuth" [user]="user"></sis-profile-miniature>
+<ng-template #notAuth>
+  <div class="sign-area">
+    <a tuiButton shape="rounded" appearance="flat" routerLink="/sign-in">Войти</a>
+    <a tuiButton shape="rounded" routerLink="/sign-up">Регистрация</a>
+  </div>
+</ng-template>
