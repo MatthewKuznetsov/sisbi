@@ -11,6 +11,10 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CoreModule } from "./core/core.module";
+import { NavigationComponent } from "./header/navigation/navigation.component";
+import { ProfileMiniatureComponent } from './header/profile-miniature/profile-miniature.component';
+import { AuthService } from "./auth/auth.service";
+import { AuthFakeService } from "./auth/auth.fake.service";
 
 @NgModule({
   declarations: [
@@ -18,6 +22,8 @@ import { CoreModule } from "./core/core.module";
     HeaderComponent,
     FooterComponent,
     HomeComponent,
+    NavigationComponent,
+    ProfileMiniatureComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +42,10 @@ import { CoreModule } from "./core/core.module";
       provide: TUI_SANITIZER,
       useClass: NgDompurifySanitizer
     },
+    {
+      provide: AuthService,
+      useClass: AuthFakeService
+    }
   ],
   bootstrap: [AppComponent],
 })

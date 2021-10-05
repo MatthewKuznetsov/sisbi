@@ -44,6 +44,12 @@ img.illustration {
   box-sizing: border-box;
 }
 
+.text-overflow {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .hidden {
   display: none;
 }
